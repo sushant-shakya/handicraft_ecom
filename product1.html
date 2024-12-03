@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - Artisan Heritage</title>
+    <link rel =" icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style3.css">
+    
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
+        </div>
+        <nav class="navbar-links">
+            <a href="landingpg.html" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
+            <a href="shop.html" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link active">Shop</a>
+            <a href="#" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
+            <div class="dropdown">
+                <select id="language-select" class="language-select">
+                    <option value="en">EN</option>
+                    <option value="np">ने</option>
+                </select>
+            </div>
+            <a href="#" class="contact-button" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="product">
+            <div class="product-image">
+                <img src="shakyamuni.jpg" alt="Shakyamuni Buddha">
+            </div>
+            <div class="product-details">
+                <h1 data-lang-en="Shakyamuni Buddha" data-lang-np="शाक्यमुनि बुद्ध">Shakyamuni Buddha</h1>
+                <p class="subtitle" data-lang-en="Siddhartha Gautama Buddha." data-lang-np="सिद्धार्थ गौतम बुद्ध">Siddhartha Gautama Buddha.</p>
+                <p class="price">रु 7000</p>
+                <button class="order-button">Order</button>
+                <div class="details">
+                    <h3>Dimension:</h3>
+                    <p>Total Height: 70 cm (27.6 inches)<br>
+                    Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
+                    <h3>Materials:</h3>
+                    <p>Crafted from Copper Sheets with Intricate Filigree Work Adorned with Various Types of Genuine Stones Supported by Four Lion Stand Bases</p>
+                    <h3>Description:</h3>
+                    <p>Indulge in the timeless allure of the Shakyamuni Buddha statue, a profound masterpiece meticulously crafted by the virtuosos of Artisian Heritage. This collector’s item captures the essence of Siddhartha Gautama, the historical Buddha, who embarked on a profound spiritual journey and attained enlightenment beneath the Bodhi tree. With a serene countenance and graceful posture, this statue radiates tranquility and wisdom, inviting you to embark on your own transformative path of self-discovery.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const languageSelect = document.getElementById("language-select");
+        languageSelect.addEventListener("change", () => {
+            const selectedLang = languageSelect.value;
+            document.querySelectorAll("[data-lang-en]").forEach(element => {
+                element.textContent = element.getAttribute(`data-lang-${selectedLang}`);
+            });
+        });
+    </script>
+</body>
+</html>
+ 
