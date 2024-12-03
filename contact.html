@@ -58,13 +58,12 @@
         </div>
     </div>
     <script>
-        const languageSelect = document.getElementById("language-select");
-        languageSelect.addEventListener("change", () => {
-            const selectedLang = languageSelect.value;
-            document.querySelectorAll("[data-lang-en]").forEach(element => {
-                element.textContent = element.getAttribute(`data-lang-${selectedLang}`);
-            });
-        });
+ document.getElementById("language-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll("[data-lang-en]").forEach(el => {
+        el.textContent = el.getAttribute(`data-lang-${lang}`);
+    });
+});
     </script>
 </body>
 </html>

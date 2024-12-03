@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,8 +43,6 @@
             <input type="text" id="search-input" placeholder="Search for products">
             <button id="search-button" type="button">Search</button>
         </div>
-     
-        
     </div>
     </div>
 </section>
@@ -153,17 +150,28 @@
         </div>
     </footer>
 
-        <!-- Simplified JavaScript for Language Switching -->
         <script>
             // Language Switching
-            const languageSelect = document.getElementById("language-select");
-            languageSelect.addEventListener("change", () => {
-                const selectedLang = languageSelect.value;
-                document.querySelectorAll("[data-lang-en]").forEach(element => {
-                    element.textContent = element.getAttribute(`data-lang-${selectedLang}`);
-                });
-            });
+            document.getElementById("language-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll("[data-lang-en]").forEach(el => {
+        el.textContent = el.getAttribute(`data-lang-${lang}`);
+    });
+});
 
+//filter
+            function filterProducts() {
+    const priceMin = parseFloat(document.getElementById("price-min").value) || 0;
+    const priceMax = parseFloat(document.getElementById("price-max").value) || Infinity;
+    const productType = document.getElementById("product-type").value;
+    document.querySelectorAll(".product").forEach(product => {
+        const price = parseFloat(product.getAttribute("data-price"));
+        const type = product.getAttribute("data-type");
+        product.style.display = (price >= priceMin && price <= priceMax && (productType === "all" || type === productType)) ? "block" : "none";
+    });
+}
+
+//search
             document.getElementById("search-button").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.trim().toLowerCase();
     const resultsContainer = document.getElementById("search-results");

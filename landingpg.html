@@ -58,7 +58,6 @@
         </div>
     </section>
     
-4
     <!-- Featured Products Section -->
     <section class="featured-products" >
         <h2 data-lang-en="Featured Products" data-lang-np="विशेष उत्पादनहरू">Featured Products</h2>
@@ -132,13 +131,20 @@
 
     <!-- Simplified JavaScript for Language Switching -->
     <script>
-        const languageSelect = document.getElementById("language-select");
-        languageSelect.addEventListener("change", () => {
-            const selectedLang = languageSelect.value;
-            document.querySelectorAll("[data-lang-en]").forEach(element => {
-                element.textContent = element.getAttribute(`data-lang-${selectedLang}`);
-            });
-        });
+document.getElementById("language-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll("[data-lang-en]").forEach(el => {
+        el.textContent = el.getAttribute(`data-lang-${lang}`);
+    });
+});
+
+document.querySelectorAll('.featured-item').forEach(item => {
+    item.addEventListener('click', event => {
+        event.preventDefault(); // Prevent the default link action
+        const filterType = item.getAttribute('data-type'); // Get the type (metal, stone, or wood)
+        window.location.href = `shop.html?filter=${filterType}`; // Redirect with query parameter
+    });
+});
     </script>
 
 </body>
