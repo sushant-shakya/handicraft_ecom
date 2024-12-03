@@ -1,10 +1,12 @@
+//aayo herta  
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - Artisan Heritage</title>
+    <title>Shop </title>
     <link rel =" icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style1.css">
     <link rel="stylesheet" href="style2.css">
     
 </head>
@@ -39,9 +41,12 @@
             Find beautiful, calming pieces to brighten your life. Shop now.
         </p>
         <div class="search-bar">
-            <input type="text" placeholder="Search for the product">
-            <button data-lang-en="Search" data-lang-np="खोज्नुहोस्">Search</button>
+            <input type="text" id="search-input" placeholder="Search for products">
+            <button id="search-button" type="button">Search</button>
         </div>
+     
+        
+    </div>
     </div>
 </section>
 
@@ -123,9 +128,31 @@
                         <p data-lang-en="Rs 10000" data-lang-np="रु १००००">Rs 10000</p>
                     </div>
                 </a>
+                <div id="search-results"></div>
             </div>
         </div>
     </section>
+
+     <!-- Footer -->
+     <footer>
+        <div class="socials">
+            <p data-lang-en="Follow us on:" data-lang-np="हामीलाई फलो गर्नुहोस्:">Follow us on:</p>
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">YouTube</a>
+        </div>
+        <div class="contact-info">
+            <p data-lang-en="CONTACT" data-lang-np="सम्पर्क">CONTACT</p>
+            <p>+977-9847650007</p>
+            <p data-lang-en="Email: artisanheritage@gmail.com" data-lang-np="इमेल: artisanheritage@gmail.com">
+                Email: artisanheritage@gmail.com
+            </p>
+            <p data-lang-en="Address: Patan, Lalitpur, Nepal, 44600" data-lang-np="ठेगाना: पाटन, ललितपुर, नेपाल, ४४६००">
+                Address: Patan, Lalitpur, Nepal, 44600
+            </p>
+        </div>
+    </footer>
+
         <!-- Simplified JavaScript for Language Switching -->
         <script>
             // Language Switching
@@ -137,28 +164,7 @@
                 });
             });
 
-            function filterProducts() {
-        const minPrice = +document.getElementById("price-min").value || 0;
-        const maxPrice = +document.getElementById("price-max").value || Infinity;
-        const type = document.getElementById("product-type").value;
-
-        document.querySelectorAll(".product").forEach(product => {
-            const price = +product.dataset.price;
-            const productType = product.dataset.type;
-            product.style.display = 
-                (price >= minPrice && price <= maxPrice && (type === "all" || productType === type)) 
-                ? "block" : "none";
-        });
-    }
-
-    // Apply Filter from URL on Page Load
-    window.onload = () => {
-        const filterType = new URLSearchParams(location.search).get("filter");
-        if (filterType) document.getElementById("product-type").value = filterType;
-        filterProducts();
-    };
-
-    document.getElementById("search-button").addEventListener("click", function () {
+            document.getElementById("search-button").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.trim().toLowerCase();
     const resultsContainer = document.getElementById("search-results");
     const products = document.querySelectorAll(".product");
@@ -188,7 +194,7 @@
     // If no match found, show a message
     if (!hasMatch) {
         resultsContainer.innerHTML = "<p style='color: red;'>No products found.</p>";
-    }
+    }
 });
         </script>
         
