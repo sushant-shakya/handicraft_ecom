@@ -157,6 +157,39 @@
         if (filterType) document.getElementById("product-type").value = filterType;
         filterProducts();
     };
+
+    document.getElementById("search-button").addEventListener("click", function () {
+    const query = document.getElementById("search-input").value.trim().toLowerCase();
+    const resultsContainer = document.getElementById("search-results");
+    const products = document.querySelectorAll(".product");
+
+    // Clear previous results
+    resultsContainer.innerHTML = ""; 
+
+    // if (!query) {
+    //     resultsContainer.innerHTML = "<p style='color: red;'>Please enter a search term.</p>";
+    //     return;
+    // }
+
+    let hasMatch = false;
+
+    // Loop through all products and toggle visibility based on search
+    products.forEach(product => {
+        const name = product.querySelector("h3").textContent.toLowerCase();
+
+        if (name.includes(query)) {
+            product.style.display = "block"; // Show matched product
+            hasMatch = true;
+        } else {
+            product.style.display = "none"; // Hide non-matching products
+        }
+    });
+
+    // If no match found, show a message
+    if (!hasMatch) {
+        resultsContainer.innerHTML = "<p style='color: red;'>No products found.</p>";
+    }
+});
         </script>
         
         </body>
