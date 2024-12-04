@@ -1,15 +1,22 @@
 <?php
-include 'dbConnection.php';
-include 'create-user-info-table.php';
+include __DIR__ . '/dbConnectionWithPDO.php';
+
+function clean_input($data) {
+  $data = trim($data);               // Remove extra spaces, tabs, newlines
+  $data = stripslashes($data);       // Remove backslashes
+  $data = htmlspecialchars($data);   // Convert special characters to HTML entities
+  return $data;
+}
+
 
 try{
   // Ensure the connection is established
-  if (!$conn) {
+  if (!$pdo) {
     throw new Exception("Database connection is not established.");
 }
 
 // Initialize variables and errors
-$full_name = $email = $phone_number = "";
+$full_name = $email = $country = $city = $postal_code = $address = $phone = "";
 $errors = [];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -55,20 +62,30 @@ if (empty($_POST["postal_code"])) {
   }
 }
 
-if (empty($_POST["phone_number"])) {
-  $errors['phone_number'] = "Phone number is required.";
+if (empty($_POST["address"])) {
+  $errors['address'] = "address is required.";
 } else {
-  $phone_number = clean_input($_POST["phone_number"]);
-  if (!preg_match("/^\+977\-9(8|7|6)[0-9]{8}$/", $phone_number)) {
-      $errors['phone_number'] = "Phone number must be 10 digits.";
+  $city = clean_input($_POST["address"]);
+  if (!preg_match("/^[a-zA-Z,' ]*$/", $address)) {
+      $errors['address'] = "Only letters and spaces are allowed.";
+  }
+}
+
+
+if (empty($_POST["phone"])) {
+  $errors['phone'] = "Phone number is required.";
+} else {
+  $phone = clean_input($_POST["phone"]);
+  if (!preg_match("/^\+977\-9(8|7|6)[0-9]{8}$/", $phone)) {
+      $errors['phone'] = "Phone number must be 10 digits.";
   }
 }
 }
 // If no errors, insert into database
 if (empty($errors)) {
   try {
-      $sql = "INSERT INTO users (full_name, email, country, city, postal_code, address, phone_number ) 
-              VALUES (:full_name, :email, :country, :city, :postal_code, :address, :phone_number)";
+      $sql = "INSERT INTO users (full_name, email, country, city, postal_code, address, phone) 
+              VALUES (:full_name, :email, :country, :city, :postal_code, :address, :phone)";
       $stmt = $pdo->prepare($sql);
       $stmt->bindParam(':full_name', $full_name);
       $stmt->bindParam(':email', $email);
@@ -76,12 +93,12 @@ if (empty($errors)) {
       $stmt->bindParam(':city', $city);
       $stmt->bindParam(':postal_code', $postal_code);
       $stmt->bindParam(':address', $address);
-      $stmt->bindParam(':phone_number', $phone_number);
+      $stmt->bindParam(':phone', $phone);
 
       if ($stmt->execute()) {
-          echo "Form inserted successfully!";
+          echo "Form submited  successfully!";
       } else {
-          echo "Failed to insert data.";
+          echo "Failed to submit form.";
       }
   } catch (PDOException $e) {
       echo "Error: " . $e->getMessage();
@@ -94,6 +111,6 @@ if (empty($errors)) {
   echo "ERROR: " . $e->getMessage();
 }finally{
   // Close the database connection
-  $conn = null;
+  $pdo = null;
 }
 ?>

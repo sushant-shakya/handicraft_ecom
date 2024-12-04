@@ -5,10 +5,9 @@ $password = "11111111";
 $dbname = "handicraftdb";
 
 try{
-  $conn = new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
+  $pdo = new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
   // set the PDO error mode to exception
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "connected successfully<br>";
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   // // Run the GRANT statement to give privileges
   // $grantSql = "GRANT CREATE, ALTER, INSERT, SELECT ON $dbname.* TO 'root'@'localhost';";
   // $conn->exec($grantSql);

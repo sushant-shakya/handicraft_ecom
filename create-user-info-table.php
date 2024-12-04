@@ -1,5 +1,6 @@
 <?php
-include 'dbConnectionWithPDO.php';
+include __DIR__ . '/dbConnection.php'; 
+
 
 try {
     // Ensure the connection is established
@@ -41,7 +42,7 @@ try {
     echo "ERROR: " . $e->getMessage();
 } 
 // finally {
-//     // Close the connection
-//     // $conn = null;
+//    // Close the connection
+//     $conn = null;
 // }
 ?>
