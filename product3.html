@@ -32,26 +32,45 @@
     <main class="container">
         <div class="product">
             <div class="product-image">
-                <img src="chenrezig.jpg" alt="Green Tara">
+                <img src="chenrezig.jpg" alt="Chenrezig">
             </div>
             <div class="product-details">
-                <h1>Chenrezig</h1>
-                <p class="subtitle">Chenrezig</p>
-                <p class="price">रु 6500</p>
-                <a href="form.html"><button class="order-button">Order</button></a>
+                <h1 data-lang-en="Chenrezig" data-lang-np="चेन्रेजिग">Chenrezig</h1>   
+                <p class="subtitle" data-lang-en="Chenrezig" data-lang-np="चेन्रेजिग">Chenrezig</p>
+                <p class="price" data-lang-en="Rs 6500" data-lang-np="रु ६५००">Rs 6500</p>
+                <a href="form.html"><button class="order-button" data-lang-en="Order" data-lang-np="अर्डर गर्नुहोस्">Order</button></a>
+
+         
                 <div class="details">
-                    <h3>Dimension:</h3>
-                    <p>Total Height: 70 cm (27.6 inches)<br>
-                    Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
-                    <h3>Materials:</h3>
-                    <p>Crafted from Copper Sheets with Intricate Filigree Work Adorned with Various Types of Genuine Stones Supported by Four Lion Stand Bases</p>
-                    <h3>Description:</h3>
-                <p>Experience the divine radiance of Chenrezig in our majestic statue. Crafted with utmost precision and adorned in 24K mercury gold, it embodies opulence and splendor. With delicate strokes of acrylic colours and embedded gemstones, it is a true masterpiece of craftsmanship and devotion.
-                    Illuminate your sacred space with its ethereal beauty.</p>                
+                    <h3 data-lang-en="Dimension:" data-lang-np="आकार:">Dimension:</h3>
+                    <p data-lang-en="Total Height: 70 cm (27.6 inches)Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)" 
+                    data-lang-np="कुल उचाइ: ७० सेमी (२७.६ इन्च)लम्बाई x चौडाई: ४८ सेमी x ४८ सेमी (१८.९ इन्च x १८.९ इन्च)">Total Height: 70 cm (27.6 inches)<br>Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
+                    
+                    <h3 data-lang-en="Materials:" data-lang-np="सामग्री:">Materials:</h3>
+                    <p data-lang-en="Crafted from Copper Sheets with Intricate Filigree Work Adorned with Various Types of Genuine Stones Supported by Four Lion Stand Bases" 
+                    data-lang-np="तामाको पाताबाट बनाइएको, बिस्तृत फिलिग्री काम सहित, विभिन्न प्रकारका असली पत्थरहरूले सजाइएको, र चार सिंह स्ट्यान्ड बेसद्वारा समर्थन गरिएको।">
+                    Crafted from Copper Sheets with Intricate Filigree Work Adorned with Various Types of Genuine Stones Supported by Four Lion Stand Bases</p>
+                    <h3 data-lang-en="Description:" data-lang-np="विवरण:">Description:</h3>
+                    <p data-lang-en= "Experience the divine radiance of Chenrezig in our majestic statue. Crafted with utmost precision and adorned in 24K mercury gold, it embodies opulence and splendor. With delicate strokes of acrylic colours and embedded gemstones, it is a true masterpiece of craftsmanship and devotion.
+                    Illuminate your sacred space with its ethereal beauty."
+                    data-lang-np= "हाम्रो भव्य मूर्तिमा चेनरेजिगको दिव्य चमकको अनुभव लिनुहोस्। अत्यन्त सटीकताका साथ बनाइएको र 24K पारा सुनमा सजिएको, यसले ऐश्वर्य र वैभवलाई मूर्त रूप दिन्छ। एक्रिलिक रंग र एम्बेडेड रत्नहरूको नाजुक स्ट्रोकको साथ, यो शिल्प कौशल र भक्तिको एक साँचो उत्कृष्ट कृति हो।
+                    तपाईंको पवित्र स्थानलाई यसको ईथर सुन्दरताले उज्यालो पार्नुहोस्।">
+                    Experience the divine radiance of Chenrezig in our majestic statue. Crafted with utmost precision and adorned in 24K mercury gold, it embodies opulence and splendor. With delicate strokes of acrylic colours and embedded gemstones, it is a true masterpiece of craftsmanship and devotion.
+                    Illuminate your sacred space with its ethereal beauty.</p>
+
+                              
                 </div>
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById("language-select").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll("[data-lang-en]").forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+            </script>
 </body>
 </html>
  

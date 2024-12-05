@@ -35,22 +35,39 @@
                 <img src="stone buddha.png" alt="buddha stone">
             </div>
             <div class="product-details">
-                <h1>Crystal Shakya Muni Buddha Statue</h1>
-                <p class="subtitle">Buddha Statue</p>
-                <p class="price">रु 10000</p>
-                <a href="form.html"><button class="order-button">Order</button></a>
+                <h1 data-lang-en="Crystal Shakya Muni Buddha Statue" data-lang-np="क्रिस्टल शाक्य मुनि बुद्ध प्रतिमा">Crystal Shakya Muni Buddha Statue</h1> 
+                <p class="subtitle" data-lang-en="Crystal Shakya Muni Buddha Statue" data-lang-np="क्रिस्टल शाक्य मुनि बुद्ध प्रतिमा">Crystal Shakya Muni Buddha Statue</p>
+                <p class="price" data-lang-en="Rs 10,000" data-lang-np="रु १०,०००">Rs 10,000</p>
+                <a href="form.html"><button class="order-button" data-lang-en="Order" data-lang-np="अर्डर गर्नुहोस्">Order</button></a> 
+             
                 <div class="details">
-                    <h3>Dimension:</h3>
-                    <p>Total Height: 60 cm (27.6 inches)<br>
-                    Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
-                    <h3>Materials:</h3>
-                    <p>Crystal, Gold-plated Copper and Stone settings</p>
-                    <h3>Description:</h3>
-                    <p>The “Gold Plated Crystal Shakyamuni Buddha” is a statue or an idol of Shakyamuni Buddha, which is made up of crystal surrounded by the copper which is gold-plated. It also consists of stone settings in different parts. It is totally handmade and carved by one of our finest artist or craftsmen. The weight of this product is 1.63 kg whereas the height and the breadth are 9 inches and 6.5 inches respectively.</p>
+                    <h3 data-lang-en="Dimension:" data-lang-np="आकार:">Dimension:</h3>
+                    <p data-lang-en="Total Height: 60 cm (27.6 inches)Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)" 
+                    data-lang-np="कुल उचाइ: ६० सेमी (२७.६ इन्च)लम्बाई x चौडाई: ४८ सेमी x ४८ सेमी (१८.९ इन्च x १८.९ इन्च)">Total Height: 60 cm (27.6 inches)<br>Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
+
+                    <h3 data-lang-en="Materials:" data-lang-np="सामग्री:">Materials:</h3>
+                    <p data-lang-en="Crystal, Gold-plated Copper and Stone settings" 
+                    data-lang-np="क्रिस्टल, गोल्ड प्लेटेड कपर र स्टोन सेटिंग्स">
+                    Crystal, Gold-plated Copper and Stone settings</p>
+                    <h3 data-lang-en="Description:" data-lang-np="विवरण:">Description:</h3>
+                    <p data-lang-en= "The Gold Plated Crystal Shakyamuni Buddha is a statue or an idol of Shakyamuni Buddha, which is made up of crystal surrounded by the copper which is gold-plated. It also consists of stone settings in different parts. It is totally handmade and carved by one of our finest artist or craftsmen. The weight of this product is 1.63 kg whereas the height and the breadth are 9 inches and 6.5 inches respectively."
+                    data-lang-np= "गोल्ड प्लेटेड क्रिस्टल शाक्यमुनि बुद्ध शाक्यमुनि बुद्धको मूर्ति वा मूर्ति हो, जुन तामाले घेरिएको क्रिस्टलले बनेको हुन्छ जुन सुनले ढाकिएको हुन्छ। यसले विभिन्न भागहरूमा ढुङ्गा सेटिङहरू पनि समावेश गर्दछ। यो पूर्णतया हस्तनिर्मित र हाम्रो उत्कृष्ट कलाकार वा शिल्पकारहरू द्वारा नक्काशी गरिएको छ। यो उत्पादनको तौल १.६३ केजी छ भने उचाई र चौडाइ क्रमशः ९ इन्च र ६.५ इन्च छ।">
+                    The “Gold Plated Crystal Shakyamuni Buddha” is a statue or an idol of Shakyamuni Buddha, which is made up of crystal surrounded by the copper which is gold-plated. It also consists of stone settings in different parts. It is totally handmade and carved by one of our finest artist or craftsmen. The weight of this product is 1.63 kg whereas the height and the breadth are 9 inches and 6.5 inches respectively.</p>
+
+
+                
                 </div>
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById("language-select").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll("[data-lang-en]").forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+            </script>
 </body>
 </html>
  

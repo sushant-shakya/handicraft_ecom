@@ -35,22 +35,39 @@
                 <img src="stoneganesh.png" alt="Ganesh">
             </div>
             <div class="product-details">
-                <h1>Ganesh Stone Statue</h1>
-                <p class="subtitle">Ganesh Statue</p>
-                <p class="price">रु 9000</p>
-                <a href="form.html"><button class="order-button">Order</button></a>
+                <h1 data-lang-en="Ganesh Stone Statue" data-lang-np="गणेश ढुङ्गाको मूर्ति">Ganesh Stone Statue</h1> 
+                <p class="subtitle" data-lang-en="Ganesh Stone Statue" data-lang-np="गणेश ढुङ्गाको मूर्ति">Ganesh Stone Statue</p>
+                <p class="price" data-lang-en="Rs 9000" data-lang-np="रु ९०००">Rs 9000</p>
+                <a href="form.html"><button class="order-button" data-lang-en="Order" data-lang-np="अर्डर गर्नुहोस्">Order</button></a> 
+
+               
                 <div class="details">
-                    <h3>Dimension:</h3>
-                    <p>Total Height: 90 cm (35.4inches)<br>
-                    Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
-                    <h3>Materials:</h3>
-                    <p>Stone settings</p>
-                    <h3>Description:</h3>
-                    <p>A stone Ganesh idol represents Lord Ganesha, the Hindu deity of wisdom, prosperity, and new beginnings. Carved from durable stone, it often features intricate details showcasing the deity's iconic elephant head, potbelly, and multiple arms holding symbolic objects. Ideal for spiritual spaces, its earthy texture and timeless design bring a sense of grounding and reverence.</p>
+                    <h3 data-lang-en="Dimension:" data-lang-np="आकार:">Dimension:</h3>
+                    <p data-lang-en="Total Height: 90 cm (35.4 inches)Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)" 
+                    data-lang-np="कुल उचाइ: ९० सेमी (३५.४ इन्च)लम्बाई x चौडाई: ४८ सेमी x ४८ सेमी (१८.९ इन्च x १८.९ इन्च)">Total Height: 90 cm (35.4 inches)<br>Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
+                    
+                    <h3 data-lang-en="Materials:" data-lang-np="सामग्री:">Materials:</h3>
+                    <p data-lang-en=" Stone settings" 
+                    data-lang-np=" स्टोन सेटिंग्स">
+                     Stone settings</p>
+                    <h3 data-lang-en="Description:" data-lang-np="विवरण:">Description:</h3>
+                    <p data-lang-en= "A stone Ganesh idol represents Lord Ganesha, the Hindu deity of wisdom, prosperity, and new beginnings. Carved from durable stone, it often features intricate details showcasing the deity's iconic elephant head, potbelly, and multiple arms holding symbolic objects. Ideal for spiritual spaces, its earthy texture and timeless design bring a sense of grounding and reverence."
+                    data-lang-np= "ढुङ्गाको गणेश मूर्तिले भगवान गणेश, बुद्धि, समृद्धि र नयाँ सुरुवातको हिन्दू देवतालाई प्रतिनिधित्व गर्दछ। टिकाऊ ढुङ्गाबाट कुँदिएको, यसले अक्सर देवताको प्रतिष्ठित हात्तीको टाउको, पोटेली, र प्रतीकात्मक वस्तुहरू समात्ने बहु हतियारहरू प्रदर्शन गर्ने जटिल विवरणहरू प्रस्तुत गर्दछ। आध्यात्मिक स्थानहरूको लागि आदर्श, यसको माटो बनावट र कालातीत डिजाइनले ग्राउन्डिङ र आदरको भावना ल्याउँछ।">
+                    A stone Ganesh idol represents Lord Ganesha, the Hindu deity of wisdom, prosperity, and new beginnings. Carved from durable stone, it often features intricate details showcasing the deity's iconic elephant head, potbelly, and multiple arms holding symbolic objects. Ideal for spiritual spaces, its earthy texture and timeless design bring a sense of grounding and reverence.</p>
+                    
+             
                 </div>
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById("language-select").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll("[data-lang-en]").forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+            </script>
 </body>
 </html>
  
