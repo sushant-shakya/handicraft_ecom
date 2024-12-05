@@ -35,22 +35,38 @@
                 <img src="bajrayogini.jpg" alt="bajrayogini">
             </div>
             <div class="product-details">
-                <h1>Bajrayogini Statue</h1>
-                <p class="subtitle">Bajrayogini Dakini Statue</p>
-                <p class="price">रु 8000</p>
-                <a href="form.html"><button class="order-button">Order</button></a>
+                <h1 data-lang-en="Bajrayogini Statue" data-lang-np="बज्रयोगिनी मूर्ति">Bajrayogini Statue</h1> 
+                <p class="subtitle" data-lang-en="Bajrayogini Statue" data-lang-np="बज्रयोगिनी मूर्ति">Bajrayogini Statue</p>
+                <p class="price" data-lang-en="Rs 8000" data-lang-np="रु ८०००">Rs 8000</p>
+                <a href="form.html"><button class="order-button" data-lang-en="Order" data-lang-np="अर्डर गर्नुहोस्">Order</button></a>
+
                 <div class="details">
-                    <h3>Dimension:</h3>
-                    <p>Total Height: 90 cm (35.4inches)<br>
-                    Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
-                    <h3>Materials:</h3>
-                    <p>Wood settings</p>
-                    <h3>Description:</h3>
-                    <p>A wooden Bajrayogini idol embodies the divine energy of the tantric goddess Bajrayogini, revered in Nepalese and Tibetan traditions. Expertly carved from wood, it showcases intricate details of her graceful posture, adorned with symbolic ornaments and serene expressions. This sacred piece represents spiritual transformation and is perfect for meditation spaces, offering warmth and natural beauty.</p>
+                    <h3 data-lang-en="Dimension:" data-lang-np="आकार:">Dimension:</h3>
+                    <p data-lang-en="Total Height: 90 cm (35.4 inches)Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)" 
+                    data-lang-np="कुल उचाइ: ९० सेमी (३५.४ इन्च)लम्बाई x चौडाई: ४८ सेमी x ४८ सेमी (१८.९ इन्च x १८.९ इन्च)">Total Height: 90 cm (35.4 inches)<br>Length x Width: 48 cm x 48 cm (18.9 inches x 18.9 inches)</p>
+
+                    <h3 data-lang-en="Materials:" data-lang-np="सामग्री:">Materials:</h3>
+                    <p data-lang-en=" Wood settings" 
+                    data-lang-np=" काठ सेटिंग्स">
+                     Stone settings</p>
+                    <h3 data-lang-en="Description:" data-lang-np="विवरण:">Description:</h3>
+                    <p data-lang-en= "A wooden Bajrayogini idol embodies the divine energy of the tantric goddess Bajrayogini, revered in Nepalese and Tibetan traditions. Expertly carved from wood, it showcases intricate details of her graceful posture, adorned with symbolic ornaments and serene expressions. This sacred piece represents spiritual transformation and is perfect for meditation spaces, offering warmth and natural beauty."
+                    data-lang-np= "काठको बज्रयोगिनी मूर्तिले तान्त्रिक देवी बज्रयोगिनीको दिव्य ऊर्जालाई मूर्त रूप दिन्छ, जुन नेपाली र तिब्बती परम्पराहरूमा सम्मानित छ। कुशलतापूर्वक काठबाट नक्काशी गरिएको, यसले प्रतीकात्मक गहना र निर्मल अभिव्यक्तिहरूले सजिएको उनको सुन्दर मुद्राको जटिल विवरणहरू प्रदर्शन गर्दछ। यो पवित्र टुक्रा आध्यात्मिक रूपान्तरण को प्रतिनिधित्व गर्दछ र ध्यान स्थानहरु को लागी उपयुक्त छ, न्यानो र प्राकृतिक सौन्दर्य प्रदान गर्दछ।">
+                    A wooden Bajrayogini idol embodies the divine energy of the tantric goddess Bajrayogini, revered in Nepalese and Tibetan traditions. Expertly carved from wood, it showcases intricate details of her graceful posture, adorned with symbolic ornaments and serene expressions. This sacred piece represents spiritual transformation and is perfect for meditation spaces, offering warmth and natural beauty.</p>
+
+              
                 </div>
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById("language-select").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll("[data-lang-en]").forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+            </script>
 </body>
 </html>
  
