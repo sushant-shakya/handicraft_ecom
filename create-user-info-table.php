@@ -20,8 +20,9 @@ try {
         city VARCHAR(200) NOT NULL,
         postal_code VARCHAR(50) NOT NULL,
         address VARCHAR(200) NOT NULL,
-        phone_number VARCHAR(20) NOT NULL,
+        phone VARCHAR(20) NOT NULL,
         reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        payment_method VARCHAR(255) NOT NULL,
         PRIMARY KEY (id)
     );
     

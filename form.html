@@ -6,6 +6,7 @@
         <title>Checkout</title>
         <link rel =" icon" href="logo.png" type="image/x-icon">
         <link rel="stylesheet" href="form.css">
+        
 </head>
 <body>
     <div class="form-container">
@@ -22,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="country">Country*</label>
-                <input type="text" id="country" name="country" required>
+                <input type="text" id="country" name="country"  value="Nepal" readonly>
             </div>
             <div class="form-group">
                 <label for="city">City*</label>
@@ -38,7 +39,8 @@
             </div>
             <div class="form-group">
                 <label for="phone">Phone No*</label>
-                <input type="number" id="phone" name="phone" required>
+                <input type="number" id="phone" name="phone" required  placeholder="e.g 9812345678, 9760123456,    9641098765" maxlength="10" 
+                pattern="^(98[0-9]{8})$" title="Phone number should start with 98|97|96 and be followed by 8 digits">
             </div>
 
             <!-- Payment Method -->
