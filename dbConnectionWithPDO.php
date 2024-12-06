@@ -11,11 +11,11 @@ try{
   // echo "connected successfully!";
   // // Run the GRANT statement to give privileges
   // $grantSql = "GRANT CREATE, ALTER, INSERT, SELECT ON $dbname.* TO 'root'@'localhost';";
-  // $conn->exec($grantSql);
+  // $pdo->exec($grantSql);
   // echo "Privileges granted successfully<br>";
 
-  // // Flush privileges to apply changes
-  // $conn->exec("FLUSH PRIVILEGES;");
+  // // // Flush privileges to apply changes
+  // $pdo->exec("FLUSH PRIVILEGES;");
   // echo "Privileges flushed successfully<br>";
   
 }catch(PDOException $e){
