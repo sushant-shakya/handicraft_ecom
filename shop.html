@@ -47,30 +47,31 @@
     </div>
 </section>
 
-    <!-- Main Content Area with Filters and Products -->
-    <section class="shop-content">
-        <!-- Filters Section -->
-        <aside class="filters">
-            <h2 data-lang-en="Filters" data-lang-np="फिल्टरहरू">Filters</h2>
-            <div class="filter-group">
-                <label for="price-min" data-lang-en="Price (From):" data-lang-np="मूल्य (देखि):">Price (From):</label>
-                <input type="number" id="price-min" placeholder="रु">
-            </div>
-            <div class="filter-group">
-                <label for="price-max" data-lang-en="Price (To):" data-lang-np="मूल्य (सम्म):">Price (To):</label>
-                <input type="number" id="price-max" placeholder="रु">
-            </div>
-            <div class="filter-group">
-                <label for="product-type" data-lang-en="Product Type:" data-lang-np="उत्पादन प्रकार:">Product Type:</label>
-                <select id="product-type">
-                    <option value="all" data-lang-en="All" data-lang-np="सबै">All</option>
-                    <option value="metal" data-lang-en="Metal" data-lang-np="धातु">Metal</option>
-                    <option value="wood" data-lang-en="Wood" data-lang-np="काठ">Wood</option>
-                    <option value="stone" data-lang-en="Stone" data-lang-np="ढुंगा">Stone</option>
-                </select>
-            </div>
-            <button onclick="filterProducts()" class="filter-button" data-lang-en="Apply Filter" data-lang-np="फिल्टर लागू गर्नुहोस्">Apply Filter</button>
-        </aside>
+ <!-- Main Content Area with Filters and Products -->
+ <section class="shop-content">
+    <!-- Filters Section -->
+    <aside class="filters">
+        <h2 data-lang-en="Filters" data-lang-np="फिल्टरहरू">Filters</h2>
+        <div class="filter-group">
+            <label for="price-min" data-lang-en="Price (From):" data-lang-np="मूल्य (देखि):">Price (From):</label>
+            <input type="number" id="price-min" placeholder="रु">
+        </div>
+        <div class="filter-group">
+            <label for="price-max" data-lang-en="Price (To):" data-lang-np="मूल्य (सम्म):">Price (To):</label>
+            <input type="number" id="price-max" placeholder="रु">
+        </div>
+        <div class="filter-group">
+            <label for="product-type" data-lang-en="Product Type:" data-lang-np="उत्पादन प्रकार:">Product Type:</label>
+            <select id="product-type">
+                <option value="all" data-lang-en="All" data-lang-np="सबै">All</option>
+                <option value="metal" data-lang-en="Metal" data-lang-np="धातु">Metal</option>
+                <option value="wood" data-lang-en="Wood" data-lang-np="काठ">Wood</option>
+                <option value="stone" data-lang-en="Stone" data-lang-np="ढुंगा">Stone</option>
+            </select>
+        </div>
+        <button onclick="filterProducts()" class="filter-button" data-lang-en="Apply Filter" data-lang-np="फिल्टर लागू गर्नुहोस्">Apply Filter</button>
+    </aside>
+
 
         <!-- Products Section -->
         <div class="products">

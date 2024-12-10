@@ -138,7 +138,8 @@ document.getElementById("language-select").addEventListener("change", (e) => {
     });
 });
 
-document.querySelectorAll('.featured-image').forEach(item => {
+
+document.querySelectorAll('.featured-item').forEach(item => {
     item.addEventListener('click', event => {
         event.preventDefault(); // Prevent the default link action
         const filterType = item.getAttribute('data-type'); // Get the type (metal, stone, or wood)
