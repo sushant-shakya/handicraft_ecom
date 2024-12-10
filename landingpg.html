@@ -140,9 +140,9 @@ document.getElementById("language-select").addEventListener("change", (e) => {
 
 document.querySelectorAll('.featured-item').forEach(item => {
     item.addEventListener('click', event => {
-        event.preventDefault(); // Prevent the default link action
-        const filterType = item.getAttribute('data-type'); // Get the type (metal, stone, or wood)
-        window.location.href = `shop.html?filter=${filterType}`; // Redirect with query parameter
+        event.preventDefault(); // Prevent default anchor behavior
+        const filterType = item.getAttribute('data-type'); // Extract filter type
+        window.location.href = `shop.html?filter=${filterType}`; // Redirect to shop page with filter
     });
 });
     </script>
