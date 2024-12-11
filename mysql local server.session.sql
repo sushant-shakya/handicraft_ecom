@@ -1,48 +1,88 @@
 USE handicraftdb;
-ALTER TABLE user_info
-RENAME COLUMN id TO user_id;
+ 
+
+-- 1.user_info tables
+CREATE TABLE `User` (
+    UserID INT AUTO_INCREMENT ,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) UNIQUE NOT NULL,
+    Country VARCHAR(50) NOT NULL,
+    City VARCHAR(50) NOT NULL,
+    PostalCode VARCHAR(20) NOT NULL,
+    Address VARCHAR(100) NOT NULL,
+    Phone VARCHAR(15) NOT NULL,
+    PRIMARY KEY (UserID)
+);
+
+-- 2. order table
+CREATE TABLE `Order` (
+    OrderID INT AUTO_INCREMENT ,
+    UserID INT  NOT NULL ,
+    OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(OrderID),
+    FOREIGN KEY (UserID) REFERENCES `User`(UserID) 
+);
+
+-- 3.product table
+CREATE TABLE Product (
+    ProductID INT AUTO_INCREMENT,
+    OrderID INT  NOT NULL ,
+    ProductName VARCHAR(100) NOT NULL,
+    ProductPrice DECIMAL(10, 2) NOT NULL,
+    ProductDescription TEXT,
+     PRIMARY KEY(ProductID),
+     FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+);
+
+
+-- 4.payment table
+CREATE TABLE Payment (
+    PaymentID INT AUTO_INCREMENT ,
+    OrderID INT NOT NULL,
+    PaymentDate  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PaymentAmount DECIMAL(10, 2) NOT NULL,
+    PaymentMode VARCHAR(50) NOT NULL,
+    PRIMARY KEY(PaymentID),
+    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+);
 
 
 
--- tables 
+-- db schema daigram query
+Table User {
+    UserID INT [pk] // Primary Key
+    FullName VARCHAR(100) [NOT NULL]
+    Email VARCHAR(150) [ unique , NOT NULL]
+    Country VARCHAR(50) [NOT NULL]
+    City VARCHAR(50) [NOT NULL]
+    PostalCode VARCHAR(20) [NOT NULL]
+    Address VARCHAR(100) [NOT NULL]
+    Phone VARCHAR(15) [NOT NULL]
+}
 
-1.user_info tables
-user_id INT UNSIGNED AUTO_INCREMENT,
-        full_name VARCHAR(200) NOT NULL,
-        email VARCHAR(200) NOT NULL UNIQUE,
-        country VARCHAR(100) NOT NULL,
-        city VARCHAR(200) NOT NULL,
-        postal_code VARCHAR(50) NOT NULL,
-        address VARCHAR(200) NOT NULL,
-        phone VARCHAR(20) NOT NULL,
-        reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
+Table Order {
+    OrderID INT [pk] // Primary Key
+    UserID INT  // Foreign Key referencing User.UserID
+    OrderDate TIMESTAMP [default: `CURRENT_TIMESTAMP`,not null]
+}
 
-2.order TABLE
-order_id(pk)
-user_id
-order_date
-order_status
+Table Product {
+    ProductID INT [pk] // Primary Key
+    OrderID INT  // Foreign Key referencing Order.OrderID
+    ProductName VARCHAR(100) [NOT NULL]
+    ProductPrice DECIMAL(10,2) [NOT NULL]
+    ProductDescription TEXT
+}
 
-3. transaction TABLE
-transaction_id(pk)
-order_id
-payment_method
-payment_status
-amount
-transaction_date
+Table Payment {
+    PaymentID INT [pk] // Primary Key
+    OrderID INT  // Foreign Key referencing Order.OrderID
+    PaymentDate TIMESTAMP [default: `CURRENT_TIMESTAMP`, not null]
+    PaymentAmount DECIMAL(10,2) [NOT NULL]
+    PaymentMode VARCHAR(50) [NOT NULL]
+}
 
-
-
--- update phone
-ALTER TABLE user_info
-CHANGE phone_number phone VARCHAR(20);
-
--- add new column 
-ALTER TABLE user_info
-ADD COLUMN payment_method VARCHAR(255) NOT NULL;
-
--- delete data from table
-DELETE FROM user_info
-WHERE user_id = 1;
-
+// Relationships
+Ref: User.UserID < Order.UserID
+Ref: Order.OrderID > Payment.OrderID
+Ref: Order.OrderID <> Product.OrderID

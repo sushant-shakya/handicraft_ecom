@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start the session
-require 'dbConnectionWithPDO.php';
+require 'dbConnectionWithPDO.php'; 
 
 try {
     // Ensure the connection is established
@@ -10,7 +10,7 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Initialize variables
-        $postal_code = $phone = "";
+        $PostalCode = $Phone = "";
         $errors = [];
 
         // Collect and sanitize form inputs
@@ -44,7 +44,7 @@ try {
         }
 
         // Check if the user already exists
-        $stmt = $pdo->prepare("SELECT * FROM user_info WHERE email = :email");
+        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE Email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $existing_user = $stmt->fetch();
@@ -58,8 +58,8 @@ try {
         // Insert new user into database
         if ($payment_method === 'Cash on Delivery') {
             try {
-                $stmt = $pdo->prepare("INSERT INTO user_info (full_name, email, country, city, postal_code, address, phone, payment_method) 
-                                       VALUES (:full_name, :email, :country, :city, :postal_code, :address, :phone, :payment_method)");
+                $stmt = $pdo->prepare("INSERT INTO `User` (FullName, Email, Country, City, PostalCode, Address, Phone) 
+                       VALUES (:full_name, :email, :country, :city, :postal_code, :address, :phone)");
                 $stmt->bindParam(':full_name', $full_name);
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':country', $country);
@@ -67,7 +67,7 @@ try {
                 $stmt->bindParam(':postal_code', $postal_code);
                 $stmt->bindParam(':address', $address);
                 $stmt->bindParam(':phone', $phone);
-                $stmt->bindParam(':payment_method', $payment_method);
+
 
                 if ($stmt->execute()) {
                     $_SESSION['success'] = "Form submitted successfully!";

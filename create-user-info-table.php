@@ -12,26 +12,46 @@ try {
     $pdo->exec("SET time_zone = '+05:45'");
 
     // Create the  user info table
-    $sql = "CREATE TABLE user_info (
-        user_id INT UNSIGNED AUTO_INCREMENT,
-        full_name VARCHAR(200) NOT NULL,
-        email VARCHAR(200) NOT NULL UNIQUE,
-        country VARCHAR(100) NOT NULL,
-        city VARCHAR(200) NOT NULL,
-        postal_code VARCHAR(50) NOT NULL,
-        address VARCHAR(200) NOT NULL,
-        phone VARCHAR(20) NOT NULL,
-        reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        payment_method VARCHAR(255) NOT NULL,
-        PRIMARY KEY (user_id)
-    );
-    
-    -- CREATE TABLE payment_method(
-    --     payment_id INT UNSIGNED AUTO_INCREMENT,
-    --      method_name VARCHAR(50) NOT NULL,
-    --      PRIMARY KEY (payment_id)
-    --     );
-            ";
+    $sql = "CREATE TABLE `User` (
+    UserID INT AUTO_INCREMENT ,
+    FullName VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) UNIQUE NOT NULL,
+    Country VARCHAR(50) NOT NULL,
+    City VARCHAR(50) NOT NULL,
+    PostalCode VARCHAR(20) NOT NULL,
+    Address VARCHAR(100) NOT NULL,
+    Phone VARCHAR(15) NOT NULL,
+    PRIMARY KEY (UserID)
+);
+
+CREATE TABLE `Order` (
+    OrderID INT AUTO_INCREMENT ,
+    UserID INT  NOT NULL ,
+    OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(OrderID),
+    FOREIGN KEY (UserID) REFERENCES `User`(UserID) 
+);
+
+CREATE TABLE Product (
+    ProductID INT AUTO_INCREMENT,
+    OrderID INT  NOT NULL ,
+    ProductName VARCHAR(100) NOT NULL,
+    ProductPrice DECIMAL(10, 2) NOT NULL,
+    ProductDescription TEXT,
+     PRIMARY KEY(ProductID),
+     FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+);
+
+CREATE TABLE Payment (
+    PaymentID INT AUTO_INCREMENT ,
+    OrderID INT NOT NULL,
+    PaymentDate  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PaymentAmount DECIMAL(10, 2) NOT NULL,
+    PaymentMode VARCHAR(50) NOT NULL,
+    PRIMARY KEY(PaymentID),
+    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+);
+ ";
 
   
     // Execute the query

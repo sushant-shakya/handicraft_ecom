@@ -104,4 +104,3 @@ session_start(); // Start the session
     </div>
 </body>
 </html>
-
