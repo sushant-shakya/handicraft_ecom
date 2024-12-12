@@ -9,7 +9,7 @@
       "server": "localhost",
       "port": 3306,
       "driver": "MySQL",
-      "name": "mysql local server",
+      "name": "mysql_local_server",
       "database": "handicraftdb",
       "username": "root",
       "connectionTimeout": 50

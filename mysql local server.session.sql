@@ -1,5 +1,12 @@
 USE handicraftdb;
- 
+
+--  ALTER TABLE Product
+-- DROP FOREIGN KEY product_ibfk_1;
+
+-- ALTER TABLE Product
+-- DROP COLUMN OrderID;
+
+
 
 -- 1.user_info tables
 CREATE TABLE `User` (
@@ -26,12 +33,16 @@ CREATE TABLE `Order` (
 -- 3.product table
 CREATE TABLE Product (
     ProductID INT AUTO_INCREMENT,
-    OrderID INT  NOT NULL ,
+    -- OrderID INT  NOT NULL ,
     ProductName VARCHAR(100) NOT NULL,
-    ProductPrice DECIMAL(10, 2) NOT NULL,
-    ProductDescription TEXT,
+    Subtitle VARCHAR(300),
+    Price DECIMAL(10, 2) NOT NULL,
+    dimension VARCHAR(500),
+    materials VARCHAR(400) NOT NULL,
+    Description TEXT NOT NULL,
+    Image_path VARCHAR(300) NOT NULL,
      PRIMARY KEY(ProductID),
-     FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+    --  FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
 );
 
 
