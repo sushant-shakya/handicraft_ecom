@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Heritage</title>
+    <link rel =" icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="#.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
+        </div>
+        <nav class="navbar-links">
+            <a href="landingpg.html" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
+            <a href="shop.html" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+            <a href="about.html" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
+            <div class="dropdown">
+                <select id="language-select" class="language-select">
+                    <option value="en">EN</option>
+                    <option value="np">ने</option>
+                </select>
+            </div>
+            <a href="contact.html" class="contact-button" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+        </nav>
+    </header>
+
+     <!-- About Section -->
+     <section class="about">
+        <div class="about-content">
+            <h1 data-lang-en="About Us" data-lang-np="हाम्रोबारे">About Us</h1>
+            <p data-lang-en="At Artisan Heritage, we celebrate the timeless craftsmanship and artistic legacy of Nepal. Our platform is dedicated to bringing the beauty and uniqueness of handmade artifacts, sculptures, and art pieces to a global audience while supporting the skilled artisans who create them."
+               data-lang-np="हस्तकला धरोहरमा, हमी नेपालको कालेगो कुसलेको चिर्म प्रतिभास रूपको मनाउन गर्नु प्रयास गर्दछौँ। हाम्रो लेग्गीजु को बिश्व बाट्ने का ज्ञान कार्य गर्नु।">
+            </p>
+            <img src="about1.jpg" alt="Crafting Art">
+            <h2 data-lang-en="Who We Are" data-lang-np="हामी को हौँ">
+                "Who We Are"
+            </h2>
+            <p data-lang-en="We are a passionate team dedicated to preserving Nepal’s rich cultural heritage and bridging the timeless art of craftsmanship to the global market. From detailed Thangka paintings to intricately carved wood sculptures, we curate exceptional pieces that represent Nepal's artistic excellence and creativity. Our mission is to offer not just products, but a story — the story of Nepal's skilled artisans and their unwavering dedication to their craft."
+               data-lang-np="हामी एक जनून्ही टीम हौ जस्तलैविको संघ्रक्षण गर्न्द कार्य गर्दछौँ। विशेष विश्व वृद्धा जागीमा राजग्राको।">
+            </p>
+            <img src="about2.png" alt="Artisan at Work">
+        </div>
+        <div class="about-section">
+            <h2 data-lang-en="Spiritually Blessed for You" data-lang-np="चार्मिक वान तपाई">Spiritually Blessed for You</h2>
+            <p data-lang-en="At Artisan Heritage, devotion infuses our craft. Each statue, guided by patient and precise hands, is consecrated before reaching you, invoking blessings of spiritual fulfillment. Infused with years of charm, love, and commitment, every piece enriches your surroundings, a value far more than tangible beauty."
+               data-lang-np=""></p>
+            <img src="about3.png" alt="Support Local Artisans">
+            <img src="about4.png" alt="Support Local Artisans">
+ 
+        </div>
+
+        <div class="about-section">
+            <h2>Support Our Artisans Today</h2>
+            <p>
+                Every purchase you make helps preserve Nepal's cultural heritage and supports the livelihoods of skilled craftsmen. By choosing Artisan Heritage, you actively take part in bringing exceptional beauty and spiritual craftsmanship to the world. Your purchase makes a difference—thank you for being a part of this journey!
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="socials">
+            <p data-lang-en="Follow us on:" data-lang-np="हामीलाई फलो गर्नुहोस्:">Follow us on:</p>
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">YouTube</a>
+        </div>
+        <div class="contact-info">
+            <p data-lang-en="CONTACT" data-lang-np="सम्पर्क">CONTACT</p>
+            <p>+977-9847650007</p>
+            <p data-lang-en="Email: artisanheritage@gmail.com" data-lang-np="इमेल: artisanheritage@gmail.com">
+                Email: artisanheritage@gmail.com
+            </p>
+            <p data-lang-en="Address: Patan, Lalitpur, Nepal, 44600" data-lang-np="ठेगाना: पाटन, ललितपुर, नेपाल, ४४६००">
+                Address: Patan, Lalitpur, Nepal, 44600
+            </p>
+        </div>
+    </footer>
+    <!-- Simplified JavaScript for Language Switching -->
+    <script>
+        document.getElementById("language-select").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            document.querySelectorAll("[data-lang-en]").forEach(el => {
+                el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+        </script>
+</body>
+</html>
+
