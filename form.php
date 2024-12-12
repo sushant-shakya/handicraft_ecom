@@ -74,17 +74,31 @@ session_start(); // Start the session
                 <input type="text" id="city" name="city" required>
             </div>
             <div class="form-group">
-                <label for="postal_code">Postal Code*</label>
-                <input type="number" id="postal_code" name="postal_code" required>
+            <label for="postal_code">Postal Code*</label>
+            <input 
+             type="number" 
+             id="postal_code" 
+             name="postal_code" 
+             required 
+             pattern="\d+{5}" 
+             title="Only numbers are allowed in the postal code.">
+
             </div>
             <div class="form-group">
                 <label for="address">Address*</label>
                 <input type="text" id="address" name="address" required>
             </div>
             <div class="form-group">
-                <label for="phone">Phone No*</label>
-                <input type="number" id="phone" name="phone" required  placeholder="e.g 9812345678, 9760123456,    9641098765" maxlength="10" 
-                pattern="^(98[0-9]{8})$" title="Phone number should start with 98|97|96 and be followed by 8 digits">
+            <label for="phone">Phone No*</label>
+            <input 
+             type="number" 
+             id="phone" 
+             name="phone" 
+             required 
+             placeholder="e.g 9812345678" 
+             maxlength="10" 
+             pattern="^(98|97|96)[0-9]{8}$" 
+             title="Phone number must start with 98, 97, or 96 and be exactly 10 digits long.">
             </div>
 
             <!-- Payment Method -->
