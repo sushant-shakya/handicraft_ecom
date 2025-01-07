@@ -70,11 +70,11 @@ try {
 
 
                 if ($stmt->execute()) {
-                    $_SESSION['success'] = "Form submitted successfully!";
+                    $_SESSION['success'] = "Order confirm successfully!";
                     header("Location: form.php");
                     exit;
                 } else {
-                    $_SESSION['error'] = "Failed to submit the form. Please try again.";
+                    $_SESSION['error'] = "Failed to confirm order. Please try again.";
                     header("Location: form.php");
                     exit;
                 }
