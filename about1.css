@@ -71,7 +71,7 @@ header {
 }
 
 
-.contact-button {
+.login-button {
     background-color: #ff9900;
     color: white;
     font-weight: bold;
@@ -83,12 +83,6 @@ header {
     border-radius: 5px;
     background-color: white;
     cursor: pointer;
-}
-
-.contact-button {
-    background-color: #ff9900;
-    color: white;
-    font-weight: bold;
 }
 
 .dropdown {

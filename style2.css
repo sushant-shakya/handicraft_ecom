@@ -70,8 +70,7 @@ header {
     color: #ff9900; /* Change to match your theme */
 }
 
-
-.contact-button {
+.login-button {
     background-color: #ff9900;
     color: white;
     font-weight: bold;
@@ -85,12 +84,6 @@ header {
     cursor: pointer;
 }
 
-.contact-button {
-    background-color: #ff9900;
-    color: white;
-    font-weight: bold;
-}
-
 .dropdown {
     display: flex;
     align-items: center;
@@ -101,7 +94,7 @@ header {
     margin-right: 5px;
 }
 
-.contact-button:hover {
+.login-button:hover {
     background-color: #dfd0c4;
 }
 

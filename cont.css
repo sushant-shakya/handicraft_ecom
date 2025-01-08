@@ -136,7 +136,7 @@ header {
     cursor: pointer;
 }
 
-.contact-button {
+.login-button {
     background-color: #ff9900;
     color: white;
     font-weight: bold;
@@ -152,6 +152,6 @@ header {
     margin-right: 5px;
 }
 
-.contact-button:hover {
+.login-button:hover {
     background-color: #dfd0c4;
 }
