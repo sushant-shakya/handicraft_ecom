@@ -61,10 +61,10 @@ session_start(); // Start the session
                 <label for="full_name">Full Name*</label>
                 <input type="text" id="full_name" name="full_name" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="email">Email*</label>
                 <input type="email" id="email" name="email" required>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="country">Country*</label>
                 <input type="text" id="country" name="country"  value="Nepal" readonly>
