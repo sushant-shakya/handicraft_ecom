@@ -44,8 +44,8 @@ try {
         }
 
         // Check if the user already exists
-        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE Email = :email");
-        $stmt->bindParam(':email', $email);
+        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE Phone = :phone");
+        $stmt->bindParam(':phone', $phonr);
         $stmt->execute();
         $existing_user = $stmt->fetch();
 

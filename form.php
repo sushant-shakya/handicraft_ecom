@@ -106,8 +106,8 @@ session_start(); // Start the session
                 <label>Payment Method</label>
                 <input type="radio" id="cash" name="payment_method" value="Cash on Delivery" >
                 <label for="cash">Cash on Delivery</label>
-                <input type="radio" id="esewa" name="payment_method" value="Pay with eSewa">
-                <label for="esewa">Pay with eSewa</label>
+                <!-- <input type="radio" id="esewa" name="payment_method" value="Pay with eSewa">
+                <label for="esewa">Pay with eSewa</label> -->
             </div>
 
             <!-- Form Actions -->
