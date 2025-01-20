@@ -6,6 +6,12 @@ USE handicraftdb;
 -- ALTER TABLE Product
 -- DROP COLUMN OrderID;
 
+ALTER TABLE `User`
+DROP COLUMN address, 
+DROP COLUMN phone;
+
+ALTER TABLE `User`
+CHANGE COLUMN  FullName UserName VARCHAR(100) NOT NULL;
 
 
 -- 1.user_info tables
