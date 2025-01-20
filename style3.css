@@ -149,6 +149,10 @@ header {
     cursor: pointer;
     font-size: 1rem;
     margin-bottom: 20px;
+    position: relative;
+    z-index: 10;
+    
+    
 }
 
 .details h3 {
