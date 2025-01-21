@@ -58,12 +58,10 @@
                 <div class="form-group password-toggle">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Password" required >
-                    <span onclick="togglePassword('password')">👁️</span>
                 </div>
                 <div class="form-group password-toggle">
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
-                    <span onclick="togglePassword('confirm-password')">👁️</span>
                 </div>
                 <button type="submit">Register</button>
             </form>
@@ -72,13 +70,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function togglePassword(fieldId) {
-            const field = document.getElementById(fieldId);
-            const fieldType = field.getAttribute('type') === 'password' ? 'text' : 'password';
-            field.setAttribute('type', fieldType);
-        }
-    </script>
 </body>
 </html>
