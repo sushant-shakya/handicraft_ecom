@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,25 +14,35 @@
 <body>
 
     <!-- Navigation Bar -->
-    <header class="navbar">
-        <div class="navbar-logo">
-            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
-            <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
+<header class="navbar">
+    <div class="navbar-logo">
+        <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+        <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
+    </div>
+    <nav class="navbar-links">
+        <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
+        <a href="shop.html" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+        <a href="about.html" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
+        <a href="contact.html" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+        
+        <div class="dropdown">
+            <select id="language-select" class="language-select">
+                <option value="en">EN</option>
+                <option value="np">ने</option>
+            </select>
         </div>
-        <nav class="navbar-links">
-            <a href="landingpg.html" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
-            <a href="shop.html" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
-            <a href="about.html" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
-            <a href="contact.html" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
-            <div class="dropdown">
-                <select id="language-select" class="language-select">
-                    <option value="en">EN</option>
-                    <option value="np">ने</option>
-                </select>
+
+        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
+            <div class="user-info">
+                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
             </div>
-            <a href="login.html" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        </nav>
-    </header>
+        <?php else: ?>
+            <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+        <?php endif; ?>
+    </nav>
+</header>
+
 
     <!-- Hero Section -->
     <section class="hero">

@@ -36,28 +36,40 @@ try {
             exit;
         }
 
-        // Hash the password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Check if user or admin already exists
+        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE UserName = :username OR Email = :email");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Prepare SQL to insert data into users table
-        $stmt = $pdo->prepare("INSERT INTO `User` (username, email, password, created_at) 
+        if ($existingUser) {
+            $_SESSION['error'] = "User already exists. Please log in or use a different email/username.";
+            header("Location: registerForm.php");
+            exit;
+        }
+
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        // Insert new user/admin into the database
+        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, Created_at) 
                                VALUES (:username, :email, :password, NOW())");
 
         // Bind the parameters
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hashed_password);
+        $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
+        $stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
+        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
 
         // Execute the query and check if it's successful
         if ($stmt->execute()) {
             $_SESSION['success'] = "Registration successful! Please log in.";
-            header("Location: login.html");  // Redirect to login page
-            exit;
         } else {
             $_SESSION['error'] = "Registration failed. Please try again.";
-            header("Location: registerForm.php");
-            exit;
         }
+
+        header("Location: registerForm.php");
+        exit;
     }
 } catch (Exception $e) {
     $_SESSION['error'] = "Error: " . $e->getMessage();
