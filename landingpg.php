@@ -21,9 +21,9 @@ session_start();
     </div>
     <nav class="navbar-links">
         <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
-        <a href="shop.html" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
-        <a href="about.html" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
-        <a href="contact.html" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+        <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+        <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
+        <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
         
         <div class="dropdown">
             <select id="language-select" class="language-select">
@@ -118,7 +118,7 @@ session_start();
                 </div>
             </a>
         </div>
-        <a href="shop.html"><button class="view-more" data-lang-en="View More" data-lang-np="थप हेर्नुहोस्">View More</button></a>
+        <a href="shop.php"><button class="view-more" data-lang-en="View More" data-lang-np="थप हेर्नुहोस्">View More</button></a>
     </section>
 
     <!-- Footer -->

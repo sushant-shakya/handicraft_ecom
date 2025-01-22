@@ -23,7 +23,7 @@
                 <button type="submit">Send Reset Request</button>
             </form>
             <div class="back-link">
-                Back to the <a href="login.html">Login screen</a>
+                Back to the <a href="login.php">Login screen</a>
             </div>
         </div>
     </div>
