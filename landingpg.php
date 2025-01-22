@@ -58,13 +58,13 @@ session_start();
 
     <section class="featured-image">
         <div class="featured-grid">
-            <a href="shop.html?filter=metal" class="featured-item" data-type="metal">
+            <a href="shop.php?filter=metal" class="featured-item" data-type="metal">
                 <img src="image1.png" alt="Metal Product">
             </a>
-            <a href="shop.html?filter=stone" class="featured-item" data-type="stone">
+            <a href="shop.php?filter=stone" class="featured-item" data-type="stone">
                 <img src="image2.png" alt="Stone Product">
             </a>
-            <a href="shop.html?filter=wood" class="featured-item" data-type="wood">
+            <a href="shop.php?filter=wood" class="featured-item" data-type="wood">
                 <img src="image3.png" alt="Wood Product">
             </a>
         </div>
@@ -75,42 +75,42 @@ session_start();
         <h2 data-lang-en="Featured Products" data-lang-np="विशेष उत्पादनहरू">Featured Products</h2>
         <div class="product-grid">
             <!-- Example Product -->
-            <a href="product2.html" class="product-link">
+            <a href="product2.php" class="product-link">
             <div class="product" data-type="metal" data-price="5000">
                 <img src="greentara.jpg" alt="Green Tara">
                 <h3 data-lang-en="Green Tara" data-lang-np="हरियो तारा">Green Tara</h3>
                 <p data-lang-en="Rs 5000" data-lang-np="रु ५०००">Rs 5000</p>
             </div>
             </a>
-            <a href="product1.html" class="product-link">
+            <a href="product1.php" class="product-link">
             <div class="product" data-type="metal" data-price="7000">
                 <img src="shakyamuni.jpg" alt="Shakya Muni Buddha">
                 <h3 data-lang-en="Shakya Muni Buddha" data-lang-np="शाक्यमुनि बुद्ध">Shakya Muni Buddha</h3>
                 <p data-lang-en="Rs 7000" data-lang-np="रु ७०००">Rs 7000</p>
             </div>
             </a>
-            <a href="product3.html" class="product-link">
+            <a href="product3.php" class="product-link">
             <div class="product" data-type="metal" data-price="6500">
                 <img src="chenrezig.jpg" alt="Chenrezig">
                 <h3 data-lang-en="Chenrezig" data-lang-np="चेनरेजिग">Chenrezig</h3>
                 <p data-lang-en="Rs 6500" data-lang-np="रु ६५००">Rs 6500</p>
             </div>
             </a>
-            <a href="product4.html" class="product-link">
+            <a href="product4.php" class="product-link">
             <div class="product" data-type="metal" data-price="5000">
                 <img src="guruurgennorlaa.jpg" alt="Guru Urgen Norlaa">
                 <h3 data-lang-en="Guru Urgen Norlaa" data-lang-np="गुरु उर्गेन नोर्ला">Guru Urgen Norlaa</h3>
                 <p data-lang-en="Rs 5000" data-lang-np="रु ५०००">Rs 5000</p>
             </div>
         </a>
-        <a href="product6.html" class="product-link">
+        <a href="product6.php" class="product-link">
             <div class="product" data-type="stone" data-price="9000">
                 <img src="stoneganesh.png" alt="Ganesh Stone Statue">
                 <h3 data-lang-en="Ganesh" data-lang-np="गणेशको मूर्ति">Ganesh Statue</h3>
                 <p data-lang-en="Rs 9000" data-lang-np="रु ९०००">Rs 9000</p>
             </div>
             </a>
-            <a href="product5.html" class="product-link">
+            <a href="product5.php" class="product-link">
                 <div class="product" data-type="stone" data-price="8000">
                     <img src="stone buddha.png" alt="Crystal Shakya Muni Buddha Statue">
                     <h3 data-lang-en="Crystal Shakya Muni Buddha Statue" data-lang-np="क्रिस्टल शाक्य मुनि बुद्ध">Crystal Shakya Muni Buddha Statue</h3>
@@ -154,7 +154,7 @@ document.querySelectorAll('.featured-item').forEach(item => {
     item.addEventListener('click', event => {
         event.preventDefault(); // Prevent default anchor behavior
         const filterType = item.getAttribute('data-type'); // Extract filter type
-        window.location.href = `shop.html?filter=${filterType}`; // Redirect to shop page with filter
+        window.location.href = `shop.php?filter=${filterType}`; // Redirect to shop page with filter
     });
 });
     </script>

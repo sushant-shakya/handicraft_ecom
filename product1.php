@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,17 +20,26 @@
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
-            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
-            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link active">Shop</a>
+            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
+            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
             <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
             <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+            
             <div class="dropdown">
                 <select id="language-select" class="language-select">
                     <option value="en">EN</option>
                     <option value="np">ने</option>
                 </select>
             </div>
-            <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+    
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
+                <div class="user-info">
+                    <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                    <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+                </div>
+            <?php else: ?>
+                <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+            <?php endif; ?>
         </nav>
     </header>
     <main class="container">

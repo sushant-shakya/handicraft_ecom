@@ -53,7 +53,7 @@ session_start();
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
-                <a href="forgot.php">Forgot password?</a>
+                <a href="forgot_password.php">Forgot password?</a>
             </div>
             <button type="submit">Sign In</button>
         </form>
