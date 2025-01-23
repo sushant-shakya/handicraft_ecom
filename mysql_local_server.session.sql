@@ -6,17 +6,20 @@ USE handicraftdb;
 -- ALTER TABLE Product
 -- DROP COLUMN OrderID;
 
-ALTER TABLE `User`
-ADD COLUMN `ResetToken` VARCHAR(100) NULL,
-ADD COLUMN `TokenExpiry` DATETIME NULL;
+ALTER TABLE `User` 
+ADD COLUMN OTP VARCHAR(6) NOT NULL , 
+ADD COLUMN OTPExpiry DATETIME  NULL;
+
 
 
 ALTER TABLE `User`
 DROP COLUMN address, 
 DROP COLUMN phone;
 
-ALTER TABLE `User`
-CHANGE COLUMN  FullName UserName VARCHAR(100) NOT NULL;
+ALTER TABLE `User` 
+DROP COLUMN ResetToken, 
+DROP COLUMN TokenExpiry;
+
 
 
 -- 1.user_info tables

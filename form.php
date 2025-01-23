@@ -89,7 +89,7 @@ $product_name = isset($_GET['product_name']) ? htmlspecialchars($_GET['product_n
             </div>
             <div class="form-group">
                 <label for="phone">Quantity*</label>
-                <input type="number" id="quantity" name="quantity" required >
+                <input type="number" id="quantity" name="quantity"  value="1" readonly >    
             </div>
 
             <!-- Payment Method -->

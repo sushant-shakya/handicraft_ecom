@@ -6,7 +6,7 @@ if (isset($_GET['token'])) {
     $token = $_GET['token'];
 
     // Validate the token
-    $stmt = $pdo->prepare("SELECT UserID, TokenExpiry FROM `User` WHERE ResetToken = :token");
+    $stmt = $pdo->prepare("SELECT UserID, OTPExpiry FROM `User` WHERE OTP = :token");
     $stmt->bindParam(':token', $token, PDO::PARAM_STR);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -26,60 +26,67 @@ if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-        $token = bin2hex(random_bytes(50)); // Generate secure token
-        $expiry = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token valid for 1 hour
+        $otp = rand(100000, 999999); // Generate a 6-digit OTP
+        $expiry = date("Y-m-d H:i:s", strtotime("+1 minute")); // OTP valid for 1 minute
 
-        // Store token in database
-        $stmt = $pdo->prepare("UPDATE `User` SET ResetToken = :token, TokenExpiry = :expiry WHERE Email = :email");
-        $stmt->bindParam(':token', $token, PDO::PARAM_STR);
+        // Store OTP in database
+        $stmt = $pdo->prepare("UPDATE `User` SET OTP = :otp, OTPExpiry = :expiry WHERE Email = :email");
+        $stmt->bindParam(':otp', $otp, PDO::PARAM_INT);
         $stmt->bindParam(':expiry', $expiry, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            $_SESSION['error'] = "Failed to store OTP in the database. Try again later.";
+            header("Location: forgot_password.php");
+            exit();
+        }
 
-        // Send reset link using PHPMailer
-        $mail = new PHPMailer(true);
+       
         try {
-             // Enable debugging
-    $mail->SMTPDebug = 2; // Set to 2 for detailed debugging, 1 for basic
-    $mail->Debugoutput = 'html'; // Output in HTML format
+            // Enable debugging
+            $mail->SMTPDebug = 2; // Set to 2 for detailed debugging, 1 for basic
+            $mail->Debugoutput = 'html'; // Output in HTML format
+            // Send OTP via PHPMailer
+            $mail = new PHPMailer(true);
             // SMTP Configuration for Mailtrap
-            $mail->isSMTP();
-            $mail->Host = 'sandbox.smtp.mailtrap.io'; // Mailtrap SMTP
-            $mail->SMTPAuth = true;
-            $mail->Username = '2723bbc767c220'; // Replace with Mailtrap username
-            $mail->Password = 'f59395cb25734c'; // Replace with Mailtrap password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 2525;
+$phpmailer->isSMTP();
+$phpmailer->Host = 'sandbox.smtp.mailtrap.io';
+$phpmailer->SMTPAuth = true;
+$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Use STARTTLS encryption
+$phpmailer->Port = 587;
+$phpmailer->Username = 'cacf847240fcbe';
+$phpmailer->Password = '49eaa486b25eab';
 
             // Email Settings
-            $mail->setFrom('artisanheritage@gmail.com', 'Artisan Heritage');
+            $mail->setFrom('artisianheritage@gmail.com', 'Artisan Heritage');
             $mail->addAddress($email); // User email
+            $mail->Subject = "Your OTP for Password Reset - Artisan Heritage";
+            $mail->Body = "Your OTP for password reset is: <b>$otp</b>. This OTP is valid for 1 minute. Please do not share it with anyone.";
 
-            // Password Reset Link
-            $reset_link = "http://localhost/php/final-project/reset_password.php?token=" . $token;
-            $mail->Subject = "Password Reset Request - Artisan Heritage";
-            $mail->Body = "Click the following link to reset your password: " . $reset_link;
-
-            // Send Email
-            if ($mail->send()) {
-                $_SESSION['success'] = "A password reset link has been sent to your email.";
-            } else {
-                $_SESSION['error'] = "Failed to send email. Try again later.";
+            try {
+                // Send the email
+                $mail->send();
+                $_SESSION['success'] = "An OTP has been sent to your email.";
+                header("Location: verify_otp.php");
+                exit();
+            } catch (Exception $e) {
+                $_SESSION['error'] = "Mailer Error: " . $mail->ErrorInfo;
+                header("Location: forgot_password.php");
+                exit();
             }
+            
         } catch (Exception $e) {
             $_SESSION['error'] = "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            header("Location: forgot_password.php");
+            exit();
         }
     } else {
         $_SESSION['error'] = "No account found with this email.";
+        header("Location: forgot_password.php");
+        exit();
     }
-    
-    // Redirect to forgot password page
-    header("Location: forgot_password.php");
-    exit();
 } else {
     echo "This script should be accessed via a POST request from a web form.";
 }
 
 ob_end_flush(); // Flush output buffer
-
 ?>
