@@ -39,7 +39,7 @@ session_start();
                 <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
             </div>
         <?php else: ?>
-            <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
         <?php endif; ?>
     </nav>
 </header>

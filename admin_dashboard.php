@@ -4,12 +4,27 @@ require 'dbConnectionWithPDO.php';
 
 // Fetch orders from the database
 try {
-    $stmt = $pdo->prepare("SELECT * FROM `Order` ORDER BY OrderDate DESC");
+    $stmt = $pdo->prepare("
+        SELECT 
+            o.OrderID, 
+            o.FullName, 
+            u.Email, 
+            o.Phone, 
+            o.ProductName, 
+            o.Quantity, 
+            o.Address, 
+            o.OrderDate 
+        FROM `Order` o
+        INNER JOIN `User` u ON o.UserID = u.UserID
+        ORDER BY o.OrderDate DESC
+    ");
     $stmt->execute();
     $orders = $stmt->fetchAll();
 } catch (PDOException $e) {
     echo "Failed to fetch orders: " . $e->getMessage();
     exit();
+} finally {
+    $pdo = null;
 }
 ?>
 
@@ -55,33 +70,35 @@ try {
     <h1>Admin Dashboard</h1>
     <h3>List of Orders</h3>
     <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Order Date</th>
-            </tr>
-        </thead>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Address</th> 
+        <th>Order Date</th>
+    </tr>
+</thead>
         <tbody>
             <?php if ($orders): ?>
                 <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($order['order_id']); ?></td>
-                        <td><?php echo htmlspecialchars($order['name']); ?></td>
-                        <td><?php echo htmlspecialchars($order['email']); ?></td>
-                        <td><?php echo htmlspecialchars($order['phone']); ?></td>
-                        <td><?php echo htmlspecialchars($order['product']); ?></td>
-                        <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                        <td><?php echo htmlspecialchars($order['order_date']); ?></td>
+                        <td><?php echo htmlspecialchars($order['OrderID']); ?></td>
+                        <td><?php echo htmlspecialchars($order['FullName']); ?></td>
+                        <td><?php echo htmlspecialchars($order['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($order['Phone']); ?></td>
+                        <td><?php echo htmlspecialchars($order['ProductName']); ?></td>
+                        <td><?php echo htmlspecialchars($order['Quantity']); ?></td>
+                        <td><?= htmlspecialchars($order['Address']) ?></td>
+                        <td><?php echo htmlspecialchars($order['OrderDate']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="7">No orders found in the database.</td>
+                    <td colspan="8">No orders found in the database.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

@@ -2,6 +2,7 @@
 session_start();
 require 'dbConnectionWithPDO.php';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
 
@@ -35,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: verify_otp.php"); // Redirect to OTP verification page
             exit();
         } else {
-            $_SESSION['error'] = "Failed to send OTP. Try again later.";
+            $_SESSION['error'] = "Failed to send OTP. Try again later. ";
         }
     } else {
         $_SESSION['error'] = "No account found with this email.";

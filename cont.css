@@ -2,8 +2,9 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #1e1e1e;
-    color: #f9f9f9;
+    background-color: #f9f4ef;
+    color: #333;
+    overflow-x: hidden ;
 }
 
 .contact-container {
@@ -89,6 +90,7 @@ header {
     height: 40px;
     margin-right: 10px;
 }
+
 .logo-link {
     display: flex;               
     align-items: center;         
@@ -123,11 +125,14 @@ header {
 .navbar-links a:hover {
     background-color: #f3f3f3;
 }
+
 .nav-link.active {
     text-decoration: underline;
     font-weight: bold;
-    color: #ff9900; }
+    color: #ff9900;
+}
 
+/* Language Select Dropdown */
 .language-select {
     padding: 5px;
     border: 1px solid #ddd;
@@ -136,12 +141,18 @@ header {
     cursor: pointer;
 }
 
+/* Login Button */
 .login-button {
     background-color: #ff9900;
     color: white;
     font-weight: bold;
 }
 
+.login-button:hover {
+    background-color: #dfd0c4;
+}
+
+/* Dropdown */
 .dropdown {
     display: flex;
     align-items: center;
@@ -152,6 +163,4 @@ header {
     margin-right: 5px;
 }
 
-.login-button:hover {
-    background-color: #dfd0c4;
-}
+

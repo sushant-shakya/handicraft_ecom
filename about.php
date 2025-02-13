@@ -1,3 +1,7 @@
+<?php 
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +30,15 @@
                     <option value="np">ने</option>
                 </select>
             </div>
-            <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        </nav>
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
+            <div class="user-info">
+                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+            </div>
+        <?php else: ?>
+            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+        <?php endif; ?>
+    </nav>
     </header>
 
      <!-- About Section -->

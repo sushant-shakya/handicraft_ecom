@@ -1,8 +1,23 @@
 <?php
-session_start(); // Start the session
+session_start();
 
-// Get the product name from the URL if available
-$product_name = isset($_GET['product_name']) ? htmlspecialchars($_GET['product_name']) : "No product selected";
+// If the product name is in GET, store it in SESSION and redirect
+if (isset($_GET['product_name'])) {
+    $_SESSION['product_name'] = htmlspecialchars($_GET['product_name']);
+    header("Location: form.php");
+    exit();
+}
+
+// Check if user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    // Store the redirect URL to return to form.php after login
+    $_SESSION['redirect_url'] = 'form.php';
+    header('Location: login.php');
+    exit();
+}
+
+// Get the product name from SESSION
+$product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "No product selected";
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +69,7 @@ $product_name = isset($_GET['product_name']) ? htmlspecialchars($_GET['product_n
         <!-- Display Selected Product -->
         <p><strong>Selected Product:</strong> <?php echo $product_name; ?></p>
 
-        <form action="insert-data-into-table.php" method="POST">
+        <form action="order-form.php" method="POST">
             <input type="hidden" name="product_name" value="<?php echo $product_name; ?>">
 
             <!-- Contact Information -->
@@ -87,9 +102,10 @@ $product_name = isset($_GET['product_name']) ? htmlspecialchars($_GET['product_n
                 <label for="phone">Phone No*</label>
                 <input type="number" id="phone" name="phone" required placeholder="e.g. 9812345678" maxlength="10" pattern="^(98|97|96)[0-9]{8}$" title="Phone number must start with 98, 97, or 96 and be exactly 10 digits long.">
             </div>
+
             <div class="form-group">
                 <label for="phone">Quantity*</label>
-                <input type="number" id="quantity" name="quantity"  value="1" readonly >    
+                <input type="number" id="quantity" name="quantity" required>
             </div>
 
             <!-- Payment Method -->

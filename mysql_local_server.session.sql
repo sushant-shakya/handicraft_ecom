@@ -20,6 +20,7 @@ ALTER TABLE `User`
 DROP COLUMN ResetToken, 
 DROP COLUMN TokenExpiry;
 
+ALTER TABLE `User` MODIFY `OTP` VARCHAR(255) DEFAULT '000000';
 
 
 -- 1.user_info tables
@@ -28,27 +29,30 @@ CREATE TABLE `User` (
     UserName VARCHAR(100) NOT NULL,
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
+    OTP VARCHAR(6) DEFAULT '000000',
+    OTPExpiry DATETIME  NULL,
     Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (UserID)
 );
 
 -- 2. order table
 CREATE TABLE `Order` (
-    OrderID INT AUTO_INCREMENT ,
-    UserID INT  NOT NULL ,
-    FullName VARCHAR(255) NOT NULL,                   -- Customer's full name
-    Country VARCHAR(255),                             -- Customer's country
-    City VARCHAR(255),                                -- Customer's city
-    PostalCode VARCHAR(20),                           -- Postal code (if necessary)
-    Address VARCHAR(100) NOT NULL,                            -- Customer's address
-    Phone VARCHAR(20) NOT NULL,                       -- Customer's phone number
-    PaymentMethod VARCHAR(100) NOT NULL,              -- Payment method (e.g., Credit Card, PayPal, etc.)
+    OrderID INT AUTO_INCREMENT,
+    UserID INT NOT NULL,
+    FullName VARCHAR(255) NOT NULL,                  
+    Country VARCHAR(255),                            
+    City VARCHAR(255),                               
+    PostalCode VARCHAR(20),                          
+    Address VARCHAR(100) NOT NULL,                   
+    Phone VARCHAR(20) NOT NULL,                      
+    PaymentMethod VARCHAR(100) NOT NULL,             
     ProductName VARCHAR(255) NOT NULL,
     Quantity INT NOT NULL,
     OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY(OrderID),
-    FOREIGN KEY (UserID) REFERENCES `User`(UserID) 
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (UserID) REFERENCES `User`(UserID) ON DELETE CASCADE
 );
+
 
 -- 3.product table
 CREATE TABLE Product (
@@ -74,7 +78,8 @@ CREATE TABLE Payment (
     PaymentAmount DECIMAL(10, 2) NOT NULL,
     PaymentMode VARCHAR(50) NOT NULL,
     PRIMARY KEY(PaymentID),
-    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) 
+    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) ON DELETE CASCADE
+
 );
 
 

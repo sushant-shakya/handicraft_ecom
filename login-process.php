@@ -1,46 +1,46 @@
- <?php
+<?php
 session_start();
 require 'dbConnectionWithPDO.php';
 
 try {
-    if (!$pdo) {
-        throw new Exception("Database connection is not established.");
-    }
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = trim($_POST['email']);
+        $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
         $password = trim($_POST['password']);
-
-        $stmt = $pdo->prepare("SELECT UserID, UserName, Password FROM `User` WHERE Email = :email");
-        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    
+        // Fetch user data
+        $query = "SELECT * FROM `User` WHERE Email = :email";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
         if ($user) {
-            // Debugging output (remove after testing)
-            error_log("Entered Password: " . $password);
-            error_log("Stored Hashed Password: " . $user['Password']);
-
-            if (password_verify($password, $user['Password'])) {
-                $_SESSION['username'] = $user['UserName']; // Fix key case
+            if (password_verify($password, $user['Password'])) { 
+                session_regenerate_id(true); // Prevent session fixation attacks
                 $_SESSION['logged_in'] = true;
-                header("Location: landingpg.php");
+                $_SESSION['user_id'] = $user['UserID']; // Store UserID in session
+                $_SESSION['username'] = $user['UserName']; // Match database column case
+
+                // Check if there's a redirect URL stored, else default to landing page
+                $redirect_url = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'landingpg.php';
+                unset($_SESSION['redirect_url']); // Clear session variable after use
+
+                // Redirect to the intended page or default landing page
+                header("Location: $redirect_url");
                 exit();
             } else {
-                $_SESSION['error'] = "Invalid password. Please try again.";
+                $_SESSION['error'] = "Incorrect password";
+                header("Location: login.php");
+                exit();
             }
         } else {
-            $_SESSION['error'] = "No account found with this email.";
+            $_SESSION['error'] = "Email not found";
+            header("Location: login.php");
+            exit();
         }
-
-        header("Location: login.php");
-        exit();
     }
-} catch (Exception $e) {
-    $_SESSION['error'] = "Error: " . $e->getMessage();
+} catch (PDOException $e) {
+    $_SESSION['error'] = "Database error: " . $e->getMessage();
     header("Location: login.php");
     exit();
-} finally {
-    $pdo = null;
 }
-?> 

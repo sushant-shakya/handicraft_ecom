@@ -52,21 +52,22 @@ try {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        // Insert new user/admin into the database
-        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, Created_at) 
-                               VALUES (:username, :email, :password, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, OTP, Created_at) 
+        VALUES (:username, :email, :password, :otp, NOW())");
 
-        // Bind the parameters
-        $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
-        $stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
-        $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+$otp = null; // Or generate an OTP if required
 
-        // Execute the query and check if it's successful
-        if ($stmt->execute()) {
-            $_SESSION['success'] = "Registration successful! Please log in.";
-        } else {
-            $_SESSION['error'] = "Registration failed. Please try again.";
-        }
+$stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
+$stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
+$stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+$stmt->bindParam(':otp', $otp, PDO::PARAM_STR); // Bind OTP value
+
+if ($stmt->execute()) {
+$_SESSION['success'] = "Registration successful! Please log in.";
+} else {
+$_SESSION['error'] = "Registration failed. Please try again.";
+}
+
 
         header("Location: registerForm.php");
         exit;

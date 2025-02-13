@@ -1,3 +1,7 @@
+<?php 
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,8 +31,15 @@
                     <option value="np">ने</option>
                 </select>
             </div>
-            <a href="login.php" class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        </nav>
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
+            <div class="user-info">
+                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+            </div>
+        <?php else: ?>
+            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+        <?php endif; ?>
+    </nav>
     </header>
 
  <!-- Hero Section -->
@@ -77,49 +88,49 @@
         <div class="products">
             <h2 data-lang-en="Products" data-lang-np="उत्पादनहरू">Products</h2>
             <div class="product-grid">
-                <a href="product2.html" class="product-link">
+                <a href="product2.php" class="product-link">
                 <div class="product" data-type="metal" data-price="30,000">
                     <img src="greentara.jpg" alt="Green Tara">
                     <h3 data-lang-en="Green Tara" data-lang-np="हरियो तारा">Green Tara</h3>
                     <p data-lang-en="Rs 30,000" data-lang-np="रु ३०,०००">Rs 30,000</p>
                 </div>
                 </a>
-                <a href="product1.html" class="product-link">
+                <a href="product1.php" class="product-link">
                 <div class="product" data-type="metal" data-price="20,000">
                     <img src="shakyamuni.jpg" alt="Shakya Muni Buddha">
                     <h3 data-lang-en="Shakya Muni Buddha" data-lang-np="शाक्यमुनि बुद्ध">Shakya Muni Buddha</h3>
                     <p data-lang-en="Rs 20,000" data-lang-np="रु २०,०००">Rs 20,000</p>
                 </div>
                 </a>
-                <a href="product3.html" class="product-link">
+                <a href="product3.php" class="product-link">
                 <div class="product" data-type="metal" data-price="25,000">
                     <img src="chenrezig.jpg" alt="Chenrezig">
                     <h3 data-lang-en="Chenrezig" data-lang-np="चेनरेजिग">Chenrezig</h3>
                     <p data-lang-en="Rs 25,000" data-lang-np="रु २५,००० ">Rs 25,000</p>
                 </div>
                 </a>
-                <a href="product4.html" class="product-link">
+                <a href="product4.php" class="product-link">
                 <div class="product" data-type="metal" data-price="35,000">
                     <img src="guruurgennorlaa.jpg" alt="Guru Urgen Norlaa">
                     <h3 data-lang-en="Guru Urgen Norlaa" data-lang-np="गुरु उर्गेन नोर्ला मूर्ति">Guru Urgen Norlaa</h3>
                     <p data-lang-en="Rs 35,000" data-lang-np="रु  ३५,०००">Rs 35,000</p>
                 </div>
             </a>
-            <a href="product6.html" class="product-link">
+            <a href="product6.php" class="product-link">
                 <div class="product" data-type="stone" data-price="20,000">
                     <img src="stoneganesh.png" alt="Ganesh Stone Statue">
                     <h3 data-lang-en="Ganesh" data-lang-np="गणेशको मूर्ति">Ganesh Statue</h3>
                     <p data-lang-en="Rs 20,000" data-lang-np="रु २०,०००">Rs 20,000</p>
                 </div>
                 </a>
-                <a href="product8.html" class="product-link">
+                <a href="product8.php" class="product-link">
                     <div class="product" data-type="wood" data-price="15,000">
                         <img src="bajrayogini.jpg" alt="Bajrayogini Dakini Statue">
                         <h3 data-lang-en="Bajrayogini Statue" data-lang-np="बज्रयोगिनी">Bajrayogini Statue</h3>
                         <p data-lang-en="Rs 15,000" data-lang-np="रु १५,०००">Rs 15,000</p>
                     </div>
                 </a>
-                <a href="product5.html" class="product-link">
+                <a href="product5.php" class="product-link">
                     <div class="product" data-type="stone" data-price="1,00,000">
                         <img src="stone buddha.png" alt="Crystal Shakya Muni Buddha Statue">
                         <h3 data-lang-en="Crystal Shakya Muni Buddha Statue" data-lang-np="क्रिस्टल शाक्य मुनि बुद्ध">Crystal Shakya Muni Buddha Statue</h3>
