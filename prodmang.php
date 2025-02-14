@@ -125,5 +125,36 @@
       </tr>
     </tbody>
   </table>
+  <script>
+function toggleMenu(button) {
+    let menu = button.nextElementSibling;
+    document.querySelectorAll('.action-menu').forEach(menuItem => {
+        if (menuItem !== menu) {
+            menuItem.style.display = 'none';
+        }
+    });
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function editProduct(button) {
+    alert('Edit action triggered');
+}
+
+function deleteProduct(button) {
+    if (confirm('Are you sure you want to delete this?')) {
+        alert('Deleted!');
+    }
+}
+
+// Close the menu when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.matches('button')) {
+        document.querySelectorAll('.action-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    }
+});
+
+</script>
 </body>
 </html>
