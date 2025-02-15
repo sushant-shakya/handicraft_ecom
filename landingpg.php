@@ -8,6 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Heritage</title>
+  
     <link rel =" icon" href="logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style1.css">
 </head>
@@ -16,8 +17,10 @@ session_start();
     <!-- Navigation Bar -->
 <header class="navbar">
     <div class="navbar-logo">
+    <a href="landingpg.php>
         <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
         <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
+</a>
     </div>
     <nav class="navbar-links">
         <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
