@@ -1,29 +1,41 @@
 <?php
 session_start();
-// Database connection
-$db_host = "localhost:3306";
-$db_user = "root";
-$db_pass = "11111111";
-$db_name = "handicraftdb";
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Database connection using PDO
+try {
+    $db_host = "localhost:3306";
+    $db_name = "handicraftdb";
+    $db_user = "root";
+    $db_pass = "11111111";
+    
+    $dsn = "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ];
+    
+    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 
-// Function to get featured products
-function getFeaturedProducts($conn, $limit = 6) {
-    $sql = "SELECT * FROM product ORDER BY ProductID LIMIT ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $limit);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
+// Function to get featured products using PDO
+function getFeaturedProducts($pdo, $limit = 6) {
+    try {
+        $sql = "SELECT * FROM product ORDER BY ProductID LIMIT :limit";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        error_log("Error fetching featured products: " . $e->getMessage());
+        return [];
+    }
 }
 
 // Get products
-$featured_products = getFeaturedProducts($conn);
+$featured_products = getFeaturedProducts($pdo);
 ?>
 
 
@@ -33,43 +45,120 @@ $featured_products = getFeaturedProducts($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Heritage</title>
-  
-    <link rel =" icon" href="logo.png" type="image/x-icon">
+    <link rel="icon" href="logo.png" type="image/x-icon">
     <link rel="stylesheet" href="style1.css">
+    <style>
+        /* Add dropdown styles */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            min-width: 200px;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8f9fa;
+        }
+
+        .user-dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .caret {
+            border-top: 5px solid #333;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-<header class="navbar">
-    <div class="navbar-logo">
-    <a href="landingpg.php>
-        <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
-        <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
-</a>
-    </div>
-    <nav class="navbar-links">
-        <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
-        <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
-        <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
-        <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
-        
-        <div class="dropdown">
-            <select id="language-select" class="language-select">
-                <option value="en">EN</option>
-                <option value="np">ने</option>
-            </select>
+     <!-- Navigation Bar -->
+     <header class="navbar">
+        <div class="navbar-logo">
+            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
-
-        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
-            <div class="user-info">
-                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+        <nav class="navbar-links">
+            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
+            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+            <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
+            <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+            
+            <div class="dropdown">
+                <select id="language-select" class="language-select">
+                    <option value="en">EN</option>
+                    <option value="np">ने</option>
+                </select>
             </div>
-        <?php else: ?>
-            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        <?php endif; ?>
-    </nav>
-</header>
+
+            <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
+                <div class="user-dropdown">
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <button class="dropdown-toggle">
+                            👤 <?= htmlspecialchars($_SESSION['username']) ?>
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="manage-products.php" data-lang-en="Manage Products" data-lang-np="उत्पादन व्यवस्थापन">
+                                Manage Products
+                            </a>
+                            <a href="admin-dashboard.php" data-lang-en="Dashboard" data-lang-np="ड्यासबोर्ड">
+                                Admin Dashboard
+                            </a>
+                            <a href="logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                                Logout
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <div class="user-info">
+                            <span class="username">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
+                            <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="लगआउट">Logout</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>" class="login-button" data-lang-en="Login" data-lang-np="लगइन">Login</a>
+            <?php endif; ?>
+        </nav>
+    </header>
 
 
     <!-- Hero Section -->
@@ -98,23 +187,23 @@ $featured_products = getFeaturedProducts($conn);
         </div>
     </section>
     
-    <!-- Featured Products Section -->
-    <section class="featured-products">
+ <!-- Featured Products Section -->
+ <section class="featured-products">
         <h2 data-lang-en="Featured Products" data-lang-np="विशेष उत्पादनहरू">Featured Products</h2>
         <div class="product-grid">
             <?php foreach ($featured_products as $product): ?>
-                <a href="product1.php?id=<?php echo htmlspecialchars($product['ProductID']); ?>" class="product-link">
-                    <div class="product" data-type="<?php echo htmlspecialchars(strtolower($product['materials'])); ?>" 
-                         data-price="<?php echo htmlspecialchars($product['Price']); ?>">
-                        <img src="<?php echo htmlspecialchars($product['Image_path']); ?>" 
-                             alt="<?php echo htmlspecialchars($product['ProductName']); ?>">
-                        <h3 data-lang-en="<?php echo htmlspecialchars($product['ProductName']); ?>"
-                            data-lang-np="<?php echo htmlspecialchars($product['ProductName']); ?>">
-                            <?php echo htmlspecialchars($product['ProductName']); ?>
+                <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
+                    <div class="product" data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
+                         data-price="<?= htmlspecialchars($product['Price']) ?>">
+                        <img src="<?= htmlspecialchars($product['Image_path']) ?>" 
+                             alt="<?= htmlspecialchars($product['ProductName']) ?>">
+                        <h3 data-lang-en="<?= htmlspecialchars($product['ProductName']) ?>"
+                            data-lang-np="<?= htmlspecialchars($product['ProductName']) ?>">
+                            <?= htmlspecialchars($product['ProductName']) ?>
                         </h3>
-                        <p data-lang-en="Rs <?php echo number_format($product['Price']); ?>"
-                           data-lang-np="रु <?php echo number_format($product['Price']); ?>">
-                            Rs <?php echo number_format($product['Price']); ?>
+                        <p data-lang-en="Rs <?= number_format($product['Price']) ?>"
+                           data-lang-np="रु <?= number_format($product['Price']) ?>">
+                            Rs <?= number_format($product['Price']) ?>
                         </p>
                     </div>
                 </a>
@@ -124,6 +213,7 @@ $featured_products = getFeaturedProducts($conn);
             <button class="view-more" data-lang-en="View More" data-lang-np="थप हेर्नुहोस्">View More</button>
         </a>
     </section>
+
 
     <!-- Footer -->
     <footer>
@@ -161,6 +251,29 @@ document.querySelectorAll('.featured-item').forEach(item => {
         window.location.href = `shop.php?filter=${filterType}`; // Redirect to shop page with filter
     });
 });
+
+// Dropdown interaction
+document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.user-dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    menu.classList.toggle('show');
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const openMenus = document.querySelectorAll('.dropdown-menu.show');
+                openMenus.forEach(menu => {
+                    if (!menu.parentElement.contains(e.target)) {
+                        menu.classList.remove('show');
+                    }
+                });
+            });
+        });
     </script>
 
 </body>

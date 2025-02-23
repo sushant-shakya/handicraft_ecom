@@ -22,6 +22,20 @@ DROP COLUMN TokenExpiry;
 
 ALTER TABLE `User` MODIFY `OTP` VARCHAR(255) DEFAULT '000000';
 
+-- ALTER TABLE users ADD COLUMN role ENUM('user', 'admin') DEFAULT 'user';
+
+
+UPDATE `User` 
+SET role = 'admin' 
+WHERE UserID = 1;  -- or whatever user ID you want to make admin
+
+INSERT INTO admin_permissions 
+(UserID, can_manage_products, can_manage_users, can_view_orders)
+VALUES 
+(1, true, true, true);  -- same user ID as above
+
+-- ALTER TABLE `User` 
+-- MODIFY COLUMN role ENUM('user', 'admin') NOT NULL DEFAULT 'user';
 
 -- 1.user_info tables
 CREATE TABLE `User` (
@@ -29,6 +43,7 @@ CREATE TABLE `User` (
     UserName VARCHAR(100) NOT NULL,
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
+    role ENUM('user', 'admin')  NOT NULL DEFAULT 'user',
     OTP VARCHAR(6) DEFAULT '000000',
     OTPExpiry DATETIME  NULL,
     Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -82,7 +97,20 @@ CREATE TABLE Payment (
 
 );
 
+-- First, modify the users table to include a role column if not exists
+ALTER TABLE users
+ADD COLUMN role VARCHAR(20) DEFAULT 'user';
 
+-- Create an admin_permissions table for more granular control
+CREATE TABLE admin_permissions (
+    permission_id INT PRIMARY KEY AUTO_INCREMENT,
+   UserID INT NOT NULL,
+    can_manage_products BOOLEAN DEFAULT FALSE,
+    can_manage_users BOOLEAN DEFAULT FALSE,
+    can_view_orders BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES `User`(UserID)
+);
 
 -- db schema daigram query
 Table User {

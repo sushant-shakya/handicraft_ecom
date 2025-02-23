@@ -65,6 +65,10 @@ session_start();
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" placeholder="Email address" required>
                 </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role" placeholder="user or admin" required>
+                </div>
                 <div class="form-group password-toggle">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Password" required>

@@ -12,11 +12,12 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_EMAIL);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
 
         // Validate required fields
-        if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
+        if (empty($username) || empty($email) || empty($password) || empty($confirm_password) || empty($role)) {
             $_SESSION['error'] = "All fields are required.";
             header("Location: registerForm.php");
             exit;
@@ -52,14 +53,15 @@ try {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, OTP, Created_at) 
-        VALUES (:username, :email, :password, :otp, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, role, OTP, Created_at) 
+        VALUES (:username, :email, :password, :role, :otp, NOW())");
 
 $otp = null; // Or generate an OTP if required
 
 $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
 $stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+$stmt->bindParam(':role', $role, PDO::PARAM_STR);
 $stmt->bindParam(':otp', $otp, PDO::PARAM_STR); // Bind OTP value
 
 if ($stmt->execute()) {

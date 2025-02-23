@@ -52,6 +52,7 @@ try {
         if ($stmt->execute()) {
             $_SESSION['success'] = "Order placed successfully!";
             header("Location: form.php?product_name=" . urlencode($product_name));
+          
             exit;
         } else {
             $_SESSION['error'] = "Failed to place order. Please try again.";

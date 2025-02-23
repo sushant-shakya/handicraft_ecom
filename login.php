@@ -1,5 +1,10 @@
 <?php
 session_start();
+// At the top of login.php (before any output)
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 
 // Store redirect URL safely
 if (isset($_GET['redirect'])) {
@@ -44,6 +49,7 @@ unset($_SESSION['error']); // Clear error after displaying
             <form action="login-process.php" method="POST">
                 <input type="hidden" name="redirect_url" 
                        value="<?= isset($_SESSION['redirect_url']) ? htmlspecialchars($_SESSION['redirect_url']) : '' ?>">
+                       <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 
                 <div class="form-group">
                     <label for="email">Email Address</label>

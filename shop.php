@@ -1,68 +1,61 @@
-<?php 
+<?php
 session_start();
+
+// Database configuration
 $db_host = "localhost:3306";
+$db_name = "handicraftdb";
 $db_user = "root";
 $db_pass = "11111111";
-$db_name = "handicraftdb";
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    // Create PDO connection
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 
 // Function to get filtered products
-function getProducts($conn, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT_MAX, $search = '') {
-    $sql = "SELECT * FROM product WHERE 1=1";
+function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT_MAX, $search = '') {
     $params = [];
-    $types = "";
+    $sql = "SELECT * FROM product WHERE 1=1";
 
     if ($type != 'all') {
-        $sql .= " AND LOWER(materials) LIKE ?";
-        $type_param = "%" . strtolower($type) . "%";
-        $params[] = $type_param;
-        $types .= "s";
+        $sql .= " AND LOWER(materials) LIKE :type";
+        $params[':type'] = '%' . strtolower($type) . '%';
     }
 
     if ($min_price > 0) {
-        $sql .= " AND Price >= ?";
-        $params[] = $min_price;
-        $types .= "d";
+        $sql .= " AND Price >= :min_price";
+        $params[':min_price'] = $min_price;
     }
 
     if ($max_price < PHP_FLOAT_MAX) {
-        $sql .= " AND Price <= ?";
-        $params[] = $max_price;
-        $types .= "d";
+        $sql .= " AND Price <= :max_price";
+        $params[':max_price'] = $max_price;
     }
 
     if (!empty($search)) {
-        $sql .= " AND (LOWER(ProductName) LIKE ? OR LOWER(Subtitle) LIKE ?)";
-        $search_param = "%" . strtolower($search) . "%";
-        $params[] = $search_param;
-        $params[] = $search_param;
-        $types .= "ss";
+        $sql .= " AND (LOWER(ProductName) LIKE :search OR LOWER(Subtitle) LIKE :search)";
+        $params[':search'] = '%' . strtolower($search) . '%';
     }
 
-    $stmt = $conn->prepare($sql);
-    
-    if (!empty($params)) {
-        $stmt->bind_param($types, ...$params);
-    }
-    
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
 }
 
 // Get filter parameters
-$type = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+$type = $_GET['filter'] ?? 'all';
 $min_price = isset($_GET['min_price']) ? floatval($_GET['min_price']) : 0;
-$max_price = isset($_GET['max_price']) ? floatval($_GET['max_price']) : PHP_FLOAT_MAX;
-$search = isset($_GET['search']) ? $_GET['search'] : '';
+$max_price = isset($_GET['max_price']) && $_GET['max_price'] !== '' 
+             ? floatval($_GET['max_price']) 
+             : PHP_FLOAT_MAX;
+$search = $_GET['search'] ?? '';
 
 // Get filtered products
-$products = getProducts($conn, $type, $min_price, $max_price, $search);
+$products = getProducts($pdo, $type, $min_price, $max_price, $search);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,52 +115,51 @@ $products = getProducts($conn, $type, $min_price, $max_price, $search);
 
  <!-- Main Content Area with Filters and Products -->
  <section class="shop-content">
-    <!-- Filters Section -->
-    <aside class="filters">
-        <h2 data-lang-en="Filters" data-lang-np="फिल्टरहरू">Filters</h2>
-        <div class="filter-group">
-            <label for="price-min" data-lang-en="Price (From):" data-lang-np="मूल्य (देखि):">Price (From):</label>
-            <input type="number" id="price-min" placeholder="रु">
-        </div>
-        <div class="filter-group">
-            <label for="price-max" data-lang-en="Price (To):" data-lang-np="मूल्य (सम्म):">Price (To):</label>
-            <input type="number" id="price-max" placeholder="रु">
-        </div>
-        <div class="filter-group">
-            <label for="product-type" data-lang-en="Product Type:" data-lang-np="उत्पादन प्रकार:">Product Type:</label>
-            <select id="product-type">
-                <option value="all" data-lang-en="All" data-lang-np="सबै">All</option>
-                <option value="metal" data-lang-en="Metal" data-lang-np="धातु">Metal</option>
-                <option value="wood" data-lang-en="Wood" data-lang-np="काठ">Wood</option>
-                <option value="stone" data-lang-en="Stone" data-lang-np="ढुंगा">Stone</option>
-            </select>
-        </div>
-        <button onclick="filterProducts()" class="filter-button" data-lang-en="Apply Filter" data-lang-np="फिल्टर लागू गर्नुहोस्">Apply Filter</button>
-    </aside>
+     <!-- Filters Section -->
+     <aside class="filters">
+            <h2 data-lang-en="Filters" data-lang-np="फिल्टरहरू">Filters</h2>
+            <form id="filter-form" method="GET" action="">
+                <div class="filter-group">
+                    <label for="price-min">Price (From):</label>
+                    <input type="number" name="min_price" id="price-min" value="<?= htmlspecialchars($min_price) ?>" placeholder="रु">
+                </div>
+                <div class="filter-group">
+                    <label for="price-max">Price (To):</label>
+                    <input type="number" name="max_price" id="price-max" 
+       value="<?= ($max_price !== PHP_FLOAT_MAX) ? htmlspecialchars($max_price) : '' ?>" 
+       placeholder="Rs">
+
+                </div>
+                <div class="filter-group">
+                    <label for="product-type">Product Type:</label>
+                    <select name="filter" id="product-type">
+                        <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All</option>
+                        <option value="metal" <?= $type === 'metal' ? 'selected' : '' ?>>Metal</option>
+                        <option value="wood" <?= $type === 'wood' ? 'selected' : '' ?>>Wood</option>
+                        <option value="stone" <?= $type === 'stone' ? 'selected' : '' ?>>Stone</option>
+                    </select>
+                </div>
+                <button type="submit" class="filter-button">Apply Filter</button>
+            </form>
+        </aside>
 
 
         <!-- Products Section -->
         <div class="products">
-            <h2 data-lang-en="Products" data-lang-np="उत्पादनहरू">Products</h2>
+            <h2>Products</h2>
             <div class="product-grid">
                 <?php if (empty($products)): ?>
                     <p class="no-products">No products found matching your criteria.</p>
                 <?php else: ?>
                     <?php foreach ($products as $product): ?>
-                        <a href="product1.php?id=<?php echo htmlspecialchars($product['ProductID']); ?>" class="product-link">
+                        <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
                             <div class="product" 
-                                 data-type="<?php echo htmlspecialchars(strtolower($product['materials'])); ?>" 
-                                 data-price="<?php echo htmlspecialchars($product['Price']); ?>">
-                                <img src="<?php echo htmlspecialchars($product['Image_path']); ?>" 
-                                     alt="<?php echo htmlspecialchars($product['ProductName']); ?>">
-                                <h3 data-lang-en="<?php echo htmlspecialchars($product['ProductName']); ?>"
-                                    data-lang-np="<?php echo htmlspecialchars($product['ProductName']); ?>">
-                                    <?php echo htmlspecialchars($product['ProductName']); ?>
-                                </h3>
-                                <p data-lang-en="Rs <?php echo number_format($product['Price']); ?>"
-                                   data-lang-np="रु <?php echo number_format($product['Price']); ?>">
-                                    Rs <?php echo number_format($product['Price']); ?>
-                                </p>
+                                 data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
+                                 data-price="<?= htmlspecialchars($product['Price']) ?>">
+                                <img src="<?= htmlspecialchars($product['Image_path']) ?>" 
+                                     alt="<?= htmlspecialchars($product['ProductName']) ?>">
+                                <h3><?= htmlspecialchars($product['ProductName']) ?></h3>
+                                <p>Rs <?= number_format($product['Price']) ?></p>
                             </div>
                         </a>
                     <?php endforeach; ?>
@@ -199,12 +191,12 @@ $products = getProducts($conn, $type, $min_price, $max_price, $search);
 
         <script>
 // Language Switching
-            document.getElementById("language-select").addEventListener("change", (e) => {
-    const lang = e.target.value;
-    document.querySelectorAll("[data-lang-en]").forEach(el => {
-        el.textContent = el.getAttribute(`data-lang-${lang}`);
+document.getElementById("language-select").addEventListener("change", function(e) {
+        const lang = e.target.value;
+        document.querySelectorAll("[data-lang-en]").forEach(el => {
+            el.textContent = el.getAttribute(`data-lang-${lang}`);
+        });
     });
-});
 
 
 //filter
@@ -229,10 +221,13 @@ window.addEventListener("DOMContentLoaded", filterProducts);
 
 
 //search
-            document.getElementById("search-button").addEventListener("click", function () {
-    const query = document.getElementById("search-input").value.trim().toLowerCase();
-    const resultsContainer = document.getElementById("search-results");
-    const products = document.querySelectorAll(".product");
+             // Search functionality
+    document.getElementById("search-button").addEventListener("click", function() {
+        const searchQuery = document.getElementById("search-input").value.trim();
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set("search", searchQuery);
+        window.location.href = currentUrl.toString();
+    });
 
     // Clear previous results
     resultsContainer.innerHTML = ""; 
