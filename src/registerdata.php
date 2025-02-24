@@ -17,23 +17,23 @@ try {
         $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
 
         // Validate required fields
-        if (empty($username) || empty($email) || empty($password) || empty($confirm_password) || empty($role)) {
+        if (empty($username) || empty($email) || empty($password) || empty($confirm_password)) {
             $_SESSION['error'] = "All fields are required.";
-            header("Location: registerForm.php");
+            header("Location: ../templates/registerForm.php");
             exit;
         }
 
         // Validate password complexity
         if (!preg_match('/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,15}$)/', $password)) {
             $_SESSION['error'] = "Password must be 6-15 characters long, include at least one number and one special character.";
-            header("Location: registerForm.php");
+            header("Location: ../templates/registerForm.php");
             exit;
         }
 
         // Check if passwords match
         if ($password !== $confirm_password) {
             $_SESSION['error'] = "Passwords do not match.";
-            header("Location: registerForm.php");
+            header("Location: ../templates/registerForm.php");
             exit;
         }
 
@@ -46,7 +46,7 @@ try {
 
         if ($existingUser) {
             $_SESSION['error'] = "User already exists. Please log in or use a different email/username.";
-            header("Location: registerForm.php");
+            header("Location: ../templates/registerForm.php");
             exit;
         }
 
@@ -61,7 +61,6 @@ $otp = null; // Or generate an OTP if required
 $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
 $stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
-$stmt->bindParam(':role', $role, PDO::PARAM_STR);
 $stmt->bindParam(':otp', $otp, PDO::PARAM_STR); // Bind OTP value
 
 if ($stmt->execute()) {
@@ -71,12 +70,12 @@ $_SESSION['error'] = "Registration failed. Please try again.";
 }
 
 
-        header("Location: registerForm.php");
+        header("Location: ../templates/registerForm.php");
         exit;
     }
 } catch (Exception $e) {
     $_SESSION['error'] = "Error: " . $e->getMessage();
-    header("Location: registerForm.php");
+    header("Location: ../templates/registerForm.php");
     exit;
 } finally {
     $pdo = null;

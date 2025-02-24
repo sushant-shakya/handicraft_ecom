@@ -8,8 +8,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration - Artisan Heritage</title>
-    <link rel="icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../regis1.css">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/regis1.css">
     <style>
         .message {
             font-size: 16px;
@@ -35,7 +35,7 @@ session_start();
 
     <div class="container">
         <div class="image-section">
-            <img src="../regispic.png" alt="Artisan Heritage Image">
+            <img src="../assets/regispic.png" alt="Artisan Heritage Image">
         </div>
 
         <div class="form-section">
@@ -56,7 +56,7 @@ session_start();
 
             <h1>Registration</h1>
             
-            <form action="registerdata.php" method="POST">
+            <form action="../src/registerdata.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Username" required>
@@ -77,7 +77,7 @@ session_start();
                 <button type="submit">Register</button>
             </form>
             <div class="back-link">
-                Already have an account? <a href="./login.php">Log in</a>
+                Already have an account? <a href="login.php">Log in</a>
             </div>
         </div>
     </div>
