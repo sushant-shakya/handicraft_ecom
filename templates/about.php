@@ -20,10 +20,10 @@ session_start();
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
-            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
-            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
-            <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link active">About</a>
-            <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+            <a href="templates/landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
+            <a href="templates/shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+            <a href="templates/about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link active">About</a>
+            <a href="templates/contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
             <div class="dropdown">
                 <select id="language-select" class="language-select">
                     <option value="en">EN</option>
