@@ -63,16 +63,75 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop -Artisan Heritage</title>
-    <link rel =" icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="style2.css">
-    
+    <link rel =" icon" href="../logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../style2.css">
+    <style>
+         /* Add dropdown styles */
+         .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            min-width: 200px;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8f9fa;
+        }
+
+        .user-dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .caret {
+            border-top: 5px solid #333;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
@@ -86,15 +145,38 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                     <option value="np">ने</option>
                 </select>
             </div>
+            
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
-            <div class="user-info">
-                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
-            </div>
-        <?php else: ?>
-            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        <?php endif; ?>
-    </nav>
+                <div class="user-dropdown">
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <button class="dropdown-toggle">
+                            👤 <?= htmlspecialchars($_SESSION['username']) ?>
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="../src/manage-products.php" data-lang-en="Manage Products" data-lang-np="उत्पादन व्यवस्थापन">
+                                Manage Products
+                            </a>
+                            <a href="../src/admin-dashboard.php" data-lang-en="Dashboard" data-lang-np="ड्यासबोर्ड">
+                                Admin Dashboard
+                            <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
+                                Manage User Roles
+                            </a>
+                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                                Logout
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <div class="user-info">
+                            <span class="username">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
+                            <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="लगआउट">Logout</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>" class="login-button" data-lang-en="Login" data-lang-np="लगइन">Login</a>
+            <?php endif; ?>
+        </nav>
     </header>
 
  <!-- Hero Section -->
@@ -156,7 +238,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                             <div class="product" 
                                  data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
                                  data-price="<?= htmlspecialchars($product['Price']) ?>">
-                                <img src="<?= htmlspecialchars($product['Image_path']) ?>" 
+                                <img src="<?= htmlspecialchars('../'.$product['Image_path']) ?>" 
                                      alt="<?= htmlspecialchars($product['ProductName']) ?>">
                                 <h3><?= htmlspecialchars($product['ProductName']) ?></h3>
                                 <p>Rs <?= number_format($product['Price']) ?></p>
@@ -191,12 +273,12 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
 
         <script>
 // Language Switching
-document.getElementById("language-select").addEventListener("change", function(e) {
-        const lang = e.target.value;
-        document.querySelectorAll("[data-lang-en]").forEach(el => {
-            el.textContent = el.getAttribute(`data-lang-${lang}`);
-        });
+document.getElementById("language-select").addEventListener("change", (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll("[data-lang-en]").forEach(el => {
+        el.textContent = el.getAttribute(`data-lang-${lang}`);
     });
+});
 
 
 //filter
@@ -255,7 +337,29 @@ window.addEventListener("DOMContentLoaded", filterProducts);
     if (!hasMatch) {
         resultsContainer.innerHTML = "<p style='color: red;'>No products found.</p>";
     }
-});
+
+    // Dropdown interaction
+document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.user-dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    menu.classList.toggle('show');
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const openMenus = document.querySelectorAll('.dropdown-menu.show');
+                openMenus.forEach(menu => {
+                    if (!menu.parentElement.contains(e.target)) {
+                        menu.classList.remove('show');
+                    }
+                });
+            });
+        });
         </script>
         
         </body>

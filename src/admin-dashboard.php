@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== 'admin') {
-    header('Location: login.php');
+    header('Location: ../templates/login.php');
     exit();
 }
 // Include database connection
-require 'dbConnectionWithPDO.php';
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Fetch orders from the database
 try {
@@ -69,11 +69,22 @@ try {
         tr:hover {
             background-color: #f2f2f2;
         }
+        .home-button {
+            background-color:#333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Admin Dashboard</h1>
     <h3>List of Orders</h3>
+    <a href="../templates/landingpg.php">
+        <button class="home-button">Back to landing page</button>
+    </a>
     <table>
     <thead>
     <tr>
@@ -108,5 +119,6 @@ try {
             <?php endif; ?>
         </tbody>
     </table>
+
 </body>
 </html>

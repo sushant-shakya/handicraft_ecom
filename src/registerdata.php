@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';  // Assuming you have this file for DB connection
+require __DIR__ . '/../database/dbConnectionWithPDO.php';  // Assuming you have this file for DB connection
 
 try {
     // Ensure the connection is established
@@ -12,7 +12,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_EMAIL);
+        
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
         $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
 
@@ -53,8 +53,8 @@ try {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, role, OTP, Created_at) 
-        VALUES (:username, :email, :password, :role, :otp, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, OTP, Created_at) 
+        VALUES (:username, :email, :password,  :otp, NOW())");
 
 $otp = null; // Or generate an OTP if required
 

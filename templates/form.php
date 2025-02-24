@@ -4,15 +4,14 @@ session_start();
 // If the product name is in GET, store it in SESSION and redirect
 if (isset($_GET['product_name'])) {
     $_SESSION['product_name'] = htmlspecialchars($_GET['product_name']);
-    header("Location: form.php");
+    header("Location: ./form.php");
     exit();
 }
 
 // Check if user is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    // Store the redirect URL to return to form.php after login
-    $_SESSION['redirect_url'] = 'form.php';
-    header('Location: login.php');
+    $_SESSION['redirect_url'] = '../templates/form.php';  
+    header('Location: ../templates/login.php');  
     exit();
 }
 
@@ -26,8 +25,8 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <link rel="icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="form.css">
+    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../form.css">
     <style>
         .message {
             text-align: center;
@@ -69,7 +68,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
         <!-- Display Selected Product -->
         <p><strong>Selected Product:</strong> <?php echo $product_name; ?></p>
 
-        <form action="order-form.php" method="POST">
+        <form action="../src/order-form.php" method="POST">
             <input type="hidden" name="product_name" value="<?php echo $product_name; ?>">
 
             <!-- Contact Information -->

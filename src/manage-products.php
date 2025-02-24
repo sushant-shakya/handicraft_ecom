@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== 'admin') {
-    header('Location: login.php');
+    header('Location: ../templates/login.php');
     exit();
 }
 
@@ -103,6 +103,14 @@ try {
             cursor: pointer;
             margin-bottom: 20px;
         }
+        .home-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
         .add-button:hover {
             background-color: #e68a00;
         }
@@ -138,6 +146,9 @@ try {
     <a href="add-product-form.php">
         <button class="add-button">Add New Product</button>
     </a>
+    <a href="../templates/landingpg.php">
+        <button class="home-button">Back to landing page</button>
+    </a>
 
     <table>
         <thead>
@@ -148,7 +159,6 @@ try {
                 <th>Dimension</th>
                 <th>Material</th>
                 <th>Description</th>
-                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -161,7 +171,7 @@ try {
                 <td><?= htmlspecialchars($product['dimension']) ?></td>
                 <td><?= htmlspecialchars($product['materials']) ?></td>
                 <td><?= htmlspecialchars($product['Description']) ?></td>
-                <td><?= htmlspecialchars($product['Image_path']) ?></td>
+                
                 <td class="actions">
                     <button onclick="toggleMenu(this)">...</button>
                     <div class="action-menu">

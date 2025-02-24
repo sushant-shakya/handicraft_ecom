@@ -34,8 +34,8 @@ $product = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product - Artisan Heritage</title>
-    <link rel =" icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="style3.css">
+    <link rel =" icon" href="../logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../style3.css">
     
 </head>
 <body>
@@ -43,7 +43,7 @@ $product = $result->fetch_assoc();
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
@@ -62,10 +62,10 @@ $product = $result->fetch_assoc();
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
                 <div class="user-info">
                     <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                    <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
+                    <a href="./logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
                 </div>
             <?php else: ?>
-                <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
+                <a href="./login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -73,7 +73,7 @@ $product = $result->fetch_assoc();
     <main class="container">
         <div class="product">
             <div class="product-image">
-                <img src="<?php echo htmlspecialchars($product['Image_path']); ?>" 
+                <img src="<?php echo htmlspecialchars('../'.$product['Image_path']); ?>" 
                      alt="<?php echo htmlspecialchars($product['ProductName']); ?>">
             </div>
             <div class="product-details">

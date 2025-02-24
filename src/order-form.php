@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 try {
      // Ensure the connection is established
@@ -23,14 +23,14 @@ try {
         // Validate required fields
         if (empty($full_name) || empty($city) || empty($postal_code) || empty($address) || empty($phone) || empty($quantity) || empty($payment_method) || empty($product_name)) {
             $_SESSION['error'] = "All required fields must be filled.";
-            header("Location: formp.hp?product_name=" . urlencode($product_name));
+            header("Location: ../templates/formp.hp?product_name=" . urlencode($product_name));
             exit;
         }
 
         // Check if user is logged in and has a valid UserID
         if (!isset($_SESSION['user_id'])) {
             $_SESSION['error'] = "User not logged in.";
-            header("Location: login.php");
+            header("Location: ../templates/login.php");
             exit;
         }
 
@@ -51,22 +51,22 @@ try {
 
         if ($stmt->execute()) {
             $_SESSION['success'] = "Order placed successfully!";
-            header("Location: form.php?product_name=" . urlencode($product_name));
+            header("Location: ../templates/landingpg.php?product_name=" . urlencode($product_name));
           
             exit;
         } else {
             $_SESSION['error'] = "Failed to place order. Please try again.";
-            header("Location:form.php?product_name=" . urlencode($product_name));
+            header("Location:../templates/form.php?product_name=" . urlencode($product_name));
             exit;
         }
     } else {
         $_SESSION['error'] = "Invalid request method.";
-        header("Location: form.php");
+        header("Location: ../templates/form.php");
         exit;
     }
 } catch (Exception $e) {
     $_SESSION['error'] = "Error: " . $e->getMessage();
-    header("Location: form.php");
+    header("Location: ../templates/form.php");
     exit;
 }finally{
     $pdo = null;

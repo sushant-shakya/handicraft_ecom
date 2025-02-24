@@ -9,21 +9,81 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Heritage</title>
     <link rel =" icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="about1.css">
+    <link rel="stylesheet" href="../about1.css">
+    <style>
+        /* Add dropdown styles */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            min-width: 200px;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8f9fa;
+        }
+
+        .user-dropdown:hover .dropdown-menu,
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .caret {
+            border-top: 5px solid #333;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
-            <a href="templates/landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
-            <a href="templates/shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
-            <a href="templates/about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link active">About</a>
-            <a href="templates/contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
+            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
+            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+            <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link active">About</a>
+            <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
             <div class="dropdown">
                 <select id="language-select" class="language-select">
                     <option value="en">EN</option>
@@ -31,14 +91,36 @@ session_start();
                 </select>
             </div>
             <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true): ?>
-            <div class="user-info">
-                <span class="username">👤 <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="बाहिर निस्कनुहोस्">Logout</a>
-            </div>
-        <?php else: ?>
-            <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>"  class="login-button" data-lang-en="Login" data-lang-np="लग-इन">Login</a>
-        <?php endif; ?>
-    </nav>
+                <div class="user-dropdown">
+                    <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+                        <button class="dropdown-toggle">
+                            👤 <?= htmlspecialchars($_SESSION['username']) ?>
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="../src/manage-products.php" data-lang-en="Manage Products" data-lang-np="उत्पादन व्यवस्थापन">
+                                Manage Products
+                            </a>
+                            <a href="../src/admin-dashboard.php" data-lang-en="Dashboard" data-lang-np="ड्यासबोर्ड">
+                                Admin Dashboard
+                            <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
+                                Manage User Roles
+                            </a>
+                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                                Logout
+                            </a>
+                        </div>
+                    <?php else: ?>
+                        <div class="user-info">
+                            <span class="username">👤 <?= htmlspecialchars($_SESSION['username']) ?></span>
+                            <a href="logout.php" class="logout-button" data-lang-en="Logout" data-lang-np="लगआउट">Logout</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <a href="login.php?redirect=<?= urlencode($_SERVER['REQUEST_URI'])?>" class="login-button" data-lang-en="Login" data-lang-np="लगइन">Login</a>
+            <?php endif; ?>
+        </nav>
     </header>
 
      <!-- About Section -->
@@ -49,7 +131,7 @@ session_start();
                data-lang-np="आर्टिसन हेरिटेजमा, हामी नेपालको कालातीत शिल्प कौशल र कलात्मक विरासत मनाउँछौं। हाम्रो प्लेटफर्म हस्तनिर्मित कलाकृतिहरू, मूर्तिकलाहरू, र कला टुक्राहरूको सौन्दर्य र विशिष्टतालाई विश्वव्यापी दर्शकहरूमा ल्याउन समर्पित छ र तिनीहरूलाई सिर्जना गर्ने दक्ष कारीगरहरूलाई समर्थन गर्दछ।">At Artisan Heritage, we celebrate the timeless craftsmanship and artistic legacy of Nepal. Our platform is dedicated to bringing the beauty and uniqueness of handmade artifacts, sculptures, and art pieces to a global audience while supporting the skilled artisans who create them
 
             </p>
-            <img src="about1.jpg" alt="Crafting Art">
+            <img src="../about1.jpg" alt="Crafting Art">
             <h2 data-lang-en="Who We Are" data-lang-np="हामी को हौँ">
                 "Who We Are"
             </h2>
@@ -57,16 +139,14 @@ session_start();
                data-lang-np="हामी नेपालको समृद्ध सांस्कृतिक सम्पदाको संरक्षण गर्न र शिल्पकलाको कालातीत कलालाई विश्व बजारमा पुर्‍याउन समर्पित एक भावुक टोली हौं। विस्तृत थाङ्का चित्रहरूदेखि जटिल रूपमा नक्काशी गरिएका काठको मूर्तिहरूसम्म, हामीले नेपालको कलात्मक उत्कृष्टता र सिर्जनात्मकतालाई प्रतिनिधित्व गर्ने असाधारण टुक्राहरू क्युरेट गर्छौं। हाम्रो मिशन हो। उत्पादन मात्र नभई एउटा कथा प्रस्तुत गर्नका लागि - नेपालको सीपको कथा कारीगरहरू र उनीहरूको शिल्पप्रतिको अटल समर्पण।">We are a passionate team dedicated to preserving Nepal’s rich cultural heritage and bridging the timeless art of craftsmanship to the global market. From detailed Thangka paintings to intricately carved wood sculptures, we curate exceptional pieces that represent Nepal's artistic excellence and creativity. Our mission is to offer not just products, but a story — the story of Nepal's skilled artisans and their unwavering dedication to their craft.
 
             </p>
-            <img src="about2.png" alt="Artisan at Work">
+            <img src="../about2.png" alt="Artisan at Work">
         </div>
         <div class="about-section">
             <h2 data-lang-en="Spiritually Blessed for You" data-lang-np="चार्मिक वान तपाई">Spiritually Blessed for You</h2>
             <p data-lang-en="At Artisan Heritage, devotion infuses our craft. Each statue, guided by patient and precise hands, is consecrated before reaching you, invoking blessings of spiritual fulfillment. Infused with years of charm, love, and commitment, every piece enriches your surroundings, a value far more than tangible beauty."
                data-lang-np="कलाकार विरासतमा, भक्तिले हाम्रो शिल्पलाई प्रभाव पार्छ। प्रत्येक मूर्ति, धैर्य र सटीक हातहरूद्वारा निर्देशित, आध्यात्मिक पूर्तिको आशीर्वादको आह्वान गर्दै, तपाईं पुग्नु अघि पवित्र गरिन्छ। वर्षौंको आकर्षण, प्रेम र प्रतिबद्धताले भरिएको, प्रत्येक टुक्राले तपाईंको परिवेशलाई समृद्ध बनाउँछ। मूर्त सौन्दर्य भन्दा धेरै मूल्यवान छ।">At Artisan Heritage, devotion infuses our craft. Each statue, guided by patient and precise hands, is consecrated before reaching you, invoking blessings of spiritual fulfillment. Infused with years of charm, love, and commitment, every piece enriches your surroundings, a value far more than tangible beauty.
             </p>
-            <img src="about3.png" alt="Support Local Artisans">
-            <img src="about4.png" alt="Support Local Artisans">
- 
+            
         </div>
 
         <div class="about-section">
@@ -102,6 +182,29 @@ session_start();
             const lang = e.target.value;
             document.querySelectorAll("[data-lang-en]").forEach(el => {
                 el.textContent = el.getAttribute(`data-lang-${lang}`);
+            });
+        });
+
+        // Dropdown interaction
+document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.user-dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const menu = dropdown.querySelector('.dropdown-menu');
+                    menu.classList.toggle('show');
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                const openMenus = document.querySelectorAll('.dropdown-menu.show');
+                openMenus.forEach(menu => {
+                    if (!menu.parentElement.contains(e.target)) {
+                        menu.classList.remove('show');
+                    }
+                });
             });
         });
         </script>

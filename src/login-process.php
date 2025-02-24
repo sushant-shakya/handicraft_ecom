@@ -1,6 +1,7 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
+
 
 try {
     // Verify CSRF token first
@@ -43,7 +44,7 @@ try {
                 $_SESSION['user_role'] = $user['Role'] ?? 'user'; // Default to user if not set
 
                 // Validate redirect URL
-                $redirect_url = 'landingpg.php';
+                $redirect_url = '../templates/landingpg.php';
                 if (!empty($_SESSION['redirect_url'])) {
                     $parsed = parse_url($_SESSION['redirect_url']);
                     if ($parsed !== false && !isset($parsed['scheme'])) { // Allow only relative URLs
@@ -66,7 +67,7 @@ try {
 } catch (Exception $e) {
     error_log("Login error: " . $e->getMessage()); // Server-side logging
     $_SESSION['error'] = $e->getMessage();
-    header("Location: login.php");
+    header("Location: ../templates/login.php");
     exit();
 }
 ?>

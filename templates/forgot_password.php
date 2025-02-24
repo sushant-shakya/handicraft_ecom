@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';
+require '../database/dbConnectionWithPDO.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mail($email, $subject, $message, $headers)) {
             $_SESSION['success'] = "An OTP has been sent to your email. It is valid for 1 minute.";
             $_SESSION['email'] = $email; // Store email for OTP verification
-            header("Location: verify_otp.php"); // Redirect to OTP verification page
+            header("Location: ../src/verify_otp.php"); // Redirect to OTP verification page
             exit();
         } else {
             $_SESSION['error'] = "Failed to send OTP. Try again later. ";
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password - Artisan Heritage</title>
-    <link rel="stylesheet" href="forgot1.css">
+    <link rel="stylesheet" href="../assets/forgot1.css">
     <style>
         .message {
             text-align: center;
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <div class="image-section">
-            <img src="forgotpic.png" alt="Artisan Heritage Image">
+            <img src="../assets/forgotpic.png" alt="Artisan Heritage Image">
         </div>
         <div class="form-section">
         <?php
