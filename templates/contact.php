@@ -8,8 +8,8 @@ session_start();
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Contact-us</title>
-        <link rel =" icon" href="../logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="../cont.css">
+        <link rel =" icon" href="../assets/logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="../assets/cont.css">
         <style>
         /* Add dropdown styles */
         .user-dropdown {
@@ -75,7 +75,7 @@ session_start();
      <!-- Navigation Bar -->
      <header class="navbar">
         <div class="navbar-logo">
-            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../assets/logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">

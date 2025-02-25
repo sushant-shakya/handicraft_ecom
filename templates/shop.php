@@ -63,8 +63,8 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop -Artisan Heritage</title>
-    <link rel =" icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../style2.css">
+    <link rel =" icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/style2.css">
     <style>
          /* Add dropdown styles */
          .user-dropdown {
@@ -131,7 +131,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../assets/logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
@@ -238,7 +238,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                             <div class="product" 
                                  data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
                                  data-price="<?= htmlspecialchars($product['Price']) ?>">
-                                <img src="<?= htmlspecialchars('../'.$product['Image_path']) ?>" 
+                                <img src="<?= htmlspecialchars('../assets/'.$product['Image_path']) ?>" 
                                      alt="<?= htmlspecialchars($product['ProductName']) ?>">
                                 <h3><?= htmlspecialchars($product['ProductName']) ?></h3>
                                 <p>Rs <?= number_format($product['Price']) ?></p>

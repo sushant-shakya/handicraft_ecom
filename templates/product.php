@@ -34,8 +34,8 @@ $product = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product - Artisan Heritage</title>
-    <link rel =" icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../style3.css">
+    <link rel =" icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/style3.css">
     
 </head>
 <body>
@@ -43,12 +43,12 @@ $product = $result->fetch_assoc();
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../assets/logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
-            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link active">Home</a>
-            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link">Shop</a>
+            <a href="landingpg.php" data-lang-en="Home" data-lang-np="गृहपृष्ठ" class="nav-link">Home</a>
+            <a href="shop.php" data-lang-en="Shop" data-lang-np="किनमेल" class="nav-link active">Shop</a>
             <a href="about.php" data-lang-en="About" data-lang-np="हाम्रोबारे" class="nav-link">About</a>
             <a href="contact.php" data-lang-en="Contact Us" data-lang-np="सम्पर्क गर्नुहोस्">Contact Us</a>
             
@@ -73,7 +73,7 @@ $product = $result->fetch_assoc();
     <main class="container">
         <div class="product">
             <div class="product-image">
-                <img src="<?php echo htmlspecialchars('../'.$product['Image_path']); ?>" 
+                <img src="<?php echo htmlspecialchars('../assets'.$product['Image_path']); ?>" 
                      alt="<?php echo htmlspecialchars($product['ProductName']); ?>">
             </div>
             <div class="product-details">

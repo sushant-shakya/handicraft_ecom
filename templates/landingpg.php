@@ -45,7 +45,7 @@ $featured_products = getFeaturedProducts($pdo);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artisan Heritage</title>
-    <link rel="icon" href="../logo.png" type="image/x-icon">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../assets/style1.css">
     <style>
         /* Add dropdown styles */
@@ -113,7 +113,7 @@ $featured_products = getFeaturedProducts($pdo);
      <!-- Navigation Bar -->
      <header class="navbar">
         <div class="navbar-logo">
-            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../assets/logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
@@ -178,13 +178,13 @@ $featured_products = getFeaturedProducts($pdo);
     <section class="featured-image">
         <div class="featured-grid">
             <a href="./shop.php?filter=metal" class="featured-item" data-type="metal">
-                <img src="../image1.png" alt="Metal Product">
+                <img src="../assets/image1.png" alt="Metal Product">
             </a>
             <a href="./shop.php?filter=stone" class="featured-item" data-type="stone">
-                <img src="../image2.png" alt="Stone Product">
+                <img src="../assets/image2.png" alt="Stone Product">
             </a>
             <a href="./shop.php?filter=wood" class="featured-item" data-type="wood">
-                <img src="../image3.png" alt="Wood Product">
+                <img src="../assets/image3.png" alt="Wood Product">
             </a>
         </div>
     </section>
@@ -197,7 +197,7 @@ $featured_products = getFeaturedProducts($pdo);
                 <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
                     <div class="product" data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
                          data-price="<?= htmlspecialchars($product['Price']) ?>">
-                        <img src="<?= htmlspecialchars('../'.$product['Image_path']) ?>" 
+                        <img src="<?= htmlspecialchars('../assets/'.$product['Image_path']) ?>" 
                              alt="<?= htmlspecialchars($product['ProductName']) ?>">
                         <h3 data-lang-en="<?= htmlspecialchars($product['ProductName']) ?>"
                             data-lang-np="<?= htmlspecialchars($product['ProductName']) ?>">
