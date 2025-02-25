@@ -197,7 +197,7 @@ $featured_products = getFeaturedProducts($pdo);
                 <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
                     <div class="product" data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
                          data-price="<?= htmlspecialchars($product['Price']) ?>">
-                        <img src="<?= htmlspecialchars('../assets/'.$product['Image_path']) ?>" 
+                        <img src="<?= htmlspecialchars('../src/'.$product['Image_path']) ?>" 
                              alt="<?= htmlspecialchars($product['ProductName']) ?>">
                         <h3 data-lang-en="<?= htmlspecialchars($product['ProductName']) ?>"
                             data-lang-np="<?= htmlspecialchars($product['ProductName']) ?>">

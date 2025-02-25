@@ -73,7 +73,7 @@ $product = $result->fetch_assoc();
     <main class="container">
         <div class="product">
             <div class="product-image">
-                <img src="<?php echo htmlspecialchars('../assets'.$product['Image_path']); ?>" 
+                <img src="<?php echo htmlspecialchars('../src/'.$product['Image_path']); ?>" 
                      alt="<?php echo htmlspecialchars($product['ProductName']); ?>">
             </div>
             <div class="product-details">

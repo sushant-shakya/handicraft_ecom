@@ -56,7 +56,7 @@ session_start();
 
             <h1>Registration</h1>
             
-            <form action="registerdata.php" method="POST">
+            <form action="../src/registerdata.php" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Username" required>
