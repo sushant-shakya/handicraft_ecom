@@ -111,6 +111,22 @@ try {
             cursor: pointer;
             margin-bottom: 20px;
         }
+        .admindsh-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .userrolemanage-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
         .add-button:hover {
             background-color: #e68a00;
         }
@@ -147,7 +163,13 @@ try {
         <button class="add-button">Add New Product</button>
     </a>
     <a href="../templates/landingpg.php">
-        <button class="home-button">Back to landing page</button>
+        <button class="home-button">Home</button>
+    </a>
+    <a href="admin-dashboard.php">
+        <button class="admindsh-button">Admin dashboard</button>
+    </a>
+    <a href="user-role-managment.php">
+        <button class="userrolemanage-button">Manage user role</button>
     </a>
 
     <table>

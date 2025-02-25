@@ -66,8 +66,8 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <link rel =" icon" href="../logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../style2.css">
     <style>
-         /* Add dropdown styles */
-         .user-dropdown {
+          /* Add dropdown styles */
+        .user-dropdown {
             position: relative;
             display: inline-block;
         }

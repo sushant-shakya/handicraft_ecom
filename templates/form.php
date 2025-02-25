@@ -46,6 +46,22 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
         }
+        .nav-buttons {
+    text-align: right;
+    margin-bottom: 15px;
+}
+.home-button {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.home-button:hover {
+    background-color: #45a049;
+}
     </style>
 </head>
 <body>
@@ -61,7 +77,10 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
         unset($_SESSION['error']);
     }
     ?>
-
+<div class="form-container">
+    <div class="nav-buttons">
+        <a href="../templates/landingpg.php" class="home-button">Back To Home</a>
+    </div>
     <div class="form-container">
         <h1>Checkout</h1>
 

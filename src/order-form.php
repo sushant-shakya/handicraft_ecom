@@ -23,7 +23,7 @@ try {
         // Validate required fields
         if (empty($full_name) || empty($city) || empty($postal_code) || empty($address) || empty($phone) || empty($quantity) || empty($payment_method) || empty($product_name)) {
             $_SESSION['error'] = "All required fields must be filled.";
-            header("Location: ../templates/formp.hp?product_name=" . urlencode($product_name));
+            header("Location: ../templates/form.hp?product_name=" . urlencode($product_name));
             exit;
         }
 
@@ -51,7 +51,7 @@ try {
 
         if ($stmt->execute()) {
             $_SESSION['success'] = "Order placed successfully!";
-            header("Location: ../templates/landingpg.php?product_name=" . urlencode($product_name));
+            header("Location: ../templates/form.php?product_name=" . urlencode($product_name));
           
             exit;
         } else {
