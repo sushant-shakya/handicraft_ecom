@@ -8,19 +8,8 @@ try{
   $pdo = new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
   // set the PDO error mode to exception
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  // echo "connected successfully!";
-  // // Run the GRANT statement to give privileges
-  // $grantSql = "GRANT CREATE, ALTER, INSERT, SELECT ON $dbname.* TO 'root'@'localhost';";
-  // $pdo->exec($grantSql);
-  // echo "Privileges granted successfully<br>";
-
-  // // // Flush privileges to apply changes
-  // $pdo->exec("FLUSH PRIVILEGES;");
-  // echo "Privileges flushed successfully<br>";
-  
-}catch(PDOException $e){
-  echo "Connection failed:". $e->getMessage();
-
+  $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
-// $conn = null;
 ?>

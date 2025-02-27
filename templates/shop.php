@@ -1,20 +1,6 @@
 <?php
 session_start();
-
-// Database configuration
-$db_host = "localhost:3306";
-$db_name = "handicraftdb";
-$db_user = "root";
-$db_pass = "11111111";
-
-try {
-    // Create PDO connection
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Function to get filtered products
 function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT_MAX, $search = '') {
@@ -22,8 +8,8 @@ function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT
     $sql = "SELECT * FROM product WHERE 1=1";
 
     if ($type != 'all') {
-        $sql .= " AND LOWER(materials) LIKE :type";
-        $params[':type'] = '%' . strtolower($type) . '%';
+        $sql .= " AND type = :type";
+        $params[':type'] = $type;
     }
 
     if ($min_price > 0) {
@@ -46,6 +32,7 @@ function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT
     return $stmt->fetchAll();
 }
 
+
 // Get filter parameters
 $type = $_GET['filter'] ?? 'all';
 $min_price = isset($_GET['min_price']) ? floatval($_GET['min_price']) : 0;
@@ -63,8 +50,8 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop -Artisan Heritage</title>
-    <link rel =" icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../style2.css">
+    <link rel =" icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/style2.css">
     <style>
           /* Add dropdown styles */
         .user-dropdown {
@@ -131,7 +118,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     <!-- Navigation Bar -->
     <header class="navbar">
         <div class="navbar-logo">
-            <img src="../logo.png" alt="Artisan Heritage Logo" class="logo">
+            <img src="../assets/logo.png" alt="Artisan Heritage Logo" class="logo">
             <span class="brand-name" data-lang-en="Artisan Heritage" data-lang-np="हस्तकला धरोहर">Artisan Heritage</span>
         </div>
         <nav class="navbar-links">
@@ -162,7 +149,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                             <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
                                 Manage User Roles
                             </a>
-                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                            <a href="logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
                                 Logout
                             </a>
                         </div>
@@ -203,7 +190,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
             <form id="filter-form" method="GET" action="">
                 <div class="filter-group">
                     <label for="price-min">Price (From):</label>
-                    <input type="number" name="min_price" id="price-min" value="<?= htmlspecialchars($min_price) ?>" placeholder="रु">
+                    <input type="number" name="min_price" id="price-min" value="<?= htmlspecialchars($min_price) ?>" placeholder="Rs">
                 </div>
                 <div class="filter-group">
                     <label for="price-max">Price (To):</label>
@@ -213,14 +200,14 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
 
                 </div>
                 <div class="filter-group">
-                    <label for="product-type">Product Type:</label>
-                    <select name="filter" id="product-type">
-                        <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All</option>
-                        <option value="metal" <?= $type === 'metal' ? 'selected' : '' ?>>Metal</option>
-                        <option value="wood" <?= $type === 'wood' ? 'selected' : '' ?>>Wood</option>
-                        <option value="stone" <?= $type === 'stone' ? 'selected' : '' ?>>Stone</option>
-                    </select>
-                </div>
+    <label for="product-type">Product Type:</label>
+    <select name="filter" id="product-type">
+        <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All</option>
+        <option value="metal" <?= $type === 'metal' ? 'selected' : '' ?>>Metal</option>
+        <option value="stone" <?= $type === 'stone' ? 'selected' : '' ?>>Stone</option>
+        <option value="wood" <?= $type === 'wood' ? 'selected' : '' ?>>Wood</option>
+    </select>
+</div>
                 <button type="submit" class="filter-button">Apply Filter</button>
             </form>
         </aside>
@@ -236,7 +223,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                     <?php foreach ($products as $product): ?>
                         <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
                             <div class="product" 
-                                 data-type="<?= htmlspecialchars(strtolower($product['materials'])) ?>" 
+                                 data-type="<?= htmlspecialchars(strtolower($product['type'])) ?>" 
                                  data-price="<?= htmlspecialchars($product['Price']) ?>">
                                 <img src="<?= htmlspecialchars('../src/'.$product['Image_path']) ?>" 
                                      alt="<?= htmlspecialchars($product['ProductName']) ?>">
@@ -291,8 +278,9 @@ function filterProducts() {
     document.querySelectorAll(".product").forEach(product => {
         const price = parseFloat(product.dataset.price);
         const type = product.dataset.type;
-        const showProduct = (productType === "all" || type === productType) && (price >= priceMin && price <= priceMax);
-        product.style.display = showProduct ? "block" : "none";
+        const showProduct = (productType === "all" || type.includes(productType)) && 
+                           (price >= priceMin && (priceMax === Infinity || price <= priceMax));
+        product.closest('.product-link').style.display = showProduct ? "block" : "none";
     });
 
     document.getElementById("product-type").value = productType || "all";

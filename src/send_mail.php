@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php'; // Include PHPMailer
 
 session_start(); // Start session
-require 'dbConnectionWithPDO.php'; // Include your database connection
+require __DIR__ . '/../database/dbConnectionWithPDO.php'; // Include your database connection
 
 ob_start(); // Prevent "Headers already sent" error
 

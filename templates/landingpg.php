@@ -1,24 +1,7 @@
 <?php
 session_start();
 
-// Database connection using PDO
-try {
-    $db_host = "localhost:3306";
-    $db_name = "handicraftdb";
-    $db_user = "root";
-    $db_pass = "11111111";
-    
-    $dsn = "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ];
-    
-    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Function to get featured products using PDO
 function getFeaturedProducts($pdo, $limit = 6) {
@@ -177,13 +160,13 @@ $featured_products = getFeaturedProducts($pdo);
 
     <section class="featured-image">
         <div class="featured-grid">
-            <a href="./shop.php?filter=metal" class="featured-item" data-type="metal">
+            <a href="shop.php?filter=metal" class="featured-item" data-type="metal">
                 <img src="../assets/image1.png" alt="Metal Product">
             </a>
-            <a href="./shop.php?filter=stone" class="featured-item" data-type="stone">
+            <a href="shop.php?filter=stone" class="featured-item" data-type="stone">
                 <img src="../assets/image2.png" alt="Stone Product">
             </a>
-            <a href="./shop.php?filter=wood" class="featured-item" data-type="wood">
+            <a href="shop.php?filter=wood" class="featured-item" data-type="wood">
                 <img src="../assets/image3.png" alt="Wood Product">
             </a>
         </div>
@@ -211,7 +194,7 @@ $featured_products = getFeaturedProducts($pdo);
                 </a>
             <?php endforeach; ?>
         </div>
-        <a href="./shop.php">
+        <a href="shop.php">
             <button class="view-more" data-lang-en="View More" data-lang-np="थप हेर्नुहोस्">View More</button>
         </a>
     </section>

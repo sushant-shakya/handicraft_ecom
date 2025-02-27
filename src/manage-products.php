@@ -5,18 +5,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== 'admin') {
     exit();
 }
 
-// Database configuration
-$db_host = "localhost:3306";
-$db_name = "handicraftdb";
-$db_user = "root";
-$db_pass = "11111111";
-
-try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Handle Delete Request
 if (isset($_POST['delete_id'])) {
@@ -45,6 +34,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     <title>Manage Products</title>
     <style>
         body {
@@ -179,6 +169,7 @@ try {
                 <th>Subtitle</th>
                 <th>Price</th>
                 <th>Dimension</th>
+                <th>Product Type</th>
                 <th>Material</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -191,6 +182,7 @@ try {
                 <td><?= htmlspecialchars($product['Subtitle']) ?></td>
                 <td><?= number_format($product['Price']) ?></td>
                 <td><?= htmlspecialchars($product['dimension']) ?></td>
+                <td><?= htmlspecialchars($product['type']) ?></td>
                 <td><?= htmlspecialchars($product['materials']) ?></td>
                 <td><?= htmlspecialchars($product['Description']) ?></td>
                 

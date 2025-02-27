@@ -4,7 +4,7 @@ session_start();
 // If the product name is in GET, store it in SESSION and redirect
 if (isset($_GET['product_name'])) {
     $_SESSION['product_name'] = htmlspecialchars($_GET['product_name']);
-    header("Location: ./form.php");
+    header("Location: form.php");
     exit();
 }
 
@@ -25,8 +25,8 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <link rel="icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../form.css">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/form.css">
     <style>
         .message {
             text-align: center;
@@ -50,7 +50,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
     text-align: right;
     margin-bottom: 15px;
 }
-.home-button {
+.shop-button {
     display: inline-block;
     padding: 8px 15px;
     background-color: #4CAF50;
@@ -59,9 +59,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
     border-radius: 4px;
     font-weight: bold;
 }
-.home-button:hover {
-    background-color: #45a049;
-}
+
     </style>
 </head>
 <body>
@@ -79,7 +77,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
     ?>
 <div class="form-container">
     <div class="nav-buttons">
-        <a href="../templates/landingpg.php" class="home-button">Back To Home</a>
+        <a href="../templates/shop.php" class="shop-button">Back To shop</a>
     </div>
     <div class="form-container">
         <h1>Checkout</h1>

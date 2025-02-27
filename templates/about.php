@@ -106,7 +106,7 @@ session_start();
                             <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
                                 Manage User Roles
                             </a>
-                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                            <a href="logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
                                 Logout
                             </a>
                         </div>
@@ -131,7 +131,7 @@ session_start();
                data-lang-np="आर्टिसन हेरिटेजमा, हामी नेपालको कालातीत शिल्प कौशल र कलात्मक विरासत मनाउँछौं। हाम्रो प्लेटफर्म हस्तनिर्मित कलाकृतिहरू, मूर्तिकलाहरू, र कला टुक्राहरूको सौन्दर्य र विशिष्टतालाई विश्वव्यापी दर्शकहरूमा ल्याउन समर्पित छ र तिनीहरूलाई सिर्जना गर्ने दक्ष कारीगरहरूलाई समर्थन गर्दछ।">At Artisan Heritage, we celebrate the timeless craftsmanship and artistic legacy of Nepal. Our platform is dedicated to bringing the beauty and uniqueness of handmade artifacts, sculptures, and art pieces to a global audience while supporting the skilled artisans who create them
 
             </p>
-            <img src="../about1.jpg" alt="Crafting Art">
+            <img src="../assets/about1.jpg" alt="Crafting Art">
             <h2 data-lang-en="Who We Are" data-lang-np="हामी को हौँ">
                 "Who We Are"
             </h2>
@@ -139,7 +139,7 @@ session_start();
                data-lang-np="हामी नेपालको समृद्ध सांस्कृतिक सम्पदाको संरक्षण गर्न र शिल्पकलाको कालातीत कलालाई विश्व बजारमा पुर्‍याउन समर्पित एक भावुक टोली हौं। विस्तृत थाङ्का चित्रहरूदेखि जटिल रूपमा नक्काशी गरिएका काठको मूर्तिहरूसम्म, हामीले नेपालको कलात्मक उत्कृष्टता र सिर्जनात्मकतालाई प्रतिनिधित्व गर्ने असाधारण टुक्राहरू क्युरेट गर्छौं। हाम्रो मिशन हो। उत्पादन मात्र नभई एउटा कथा प्रस्तुत गर्नका लागि - नेपालको सीपको कथा कारीगरहरू र उनीहरूको शिल्पप्रतिको अटल समर्पण।">We are a passionate team dedicated to preserving Nepal’s rich cultural heritage and bridging the timeless art of craftsmanship to the global market. From detailed Thangka paintings to intricately carved wood sculptures, we curate exceptional pieces that represent Nepal's artistic excellence and creativity. Our mission is to offer not just products, but a story — the story of Nepal's skilled artisans and their unwavering dedication to their craft.
 
             </p>
-            <img src="../about2.png" alt="Artisan at Work">
+            <img src="../assets/about2.png" alt="Artisan at Work">
         </div>
         <div class="about-section">
             <h2 data-lang-en="Spiritually Blessed for You" data-lang-np="चार्मिक वान तपाई">Spiritually Blessed for You</h2>

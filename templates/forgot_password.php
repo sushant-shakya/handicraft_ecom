@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password - Artisan Heritage</title>
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../assets/forgot1.css">
     <style>
         .message {

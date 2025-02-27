@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_SESSION['email']; // Get email from session
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verify OTP - Artisan Heritage</title>
-    <link rel="stylesheet" href="forgot1.css">
+    <link rel="stylesheet" href="../assets/forgot1.css">
 </head>
 <body>
     <div class="container">
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Verify OTP</button>
             </form>
             <div class="back-link">
-                Back to <a href="login.php">Login</a>
+                Back to <a href="../templates/login.php">Login</a>
             </div>
         </div>
     </div>

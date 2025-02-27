@@ -7,24 +7,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || !isset(
     exit();
 }
 
-// Database connection
-try {
-    $db_host = "localhost:3306";
-    $db_name = "handicraftdb";
-    $db_user = "root";
-    $db_pass = "11111111";
-    
-    $dsn = "mysql:host=$db_host;dbname=$db_name;charset=utf8mb4";
-    $options = [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ];
-    
-    $pdo = new PDO($dsn, $db_user, $db_pass, $options);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Handle role update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id']) && isset($_POST['role'])) {
@@ -72,8 +55,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage User Roles - Artisan Heritage</title>
-    <link rel="icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../style1.css">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/style1.css">
     <style>
         .role-management {
             max-width: 1200px;

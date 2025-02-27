@@ -1,16 +1,6 @@
 <?php
 session_start();
-// Database connection
-$db_host = "localhost:3306";
-$db_user = "root";
-$db_pass = "11111111";
-$db_name = "handicraftdb";
-
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Get product ID from URL
 $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -135,7 +125,7 @@ $product = $result->fetch_assoc();
                             <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
                                 Manage User Roles
                             </a>
-                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                            <a href="logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
                                 Logout
                             </a>
                         </div>

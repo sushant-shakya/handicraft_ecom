@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbConnectionWithPDO.php';
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];

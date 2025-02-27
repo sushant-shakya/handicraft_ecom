@@ -1,5 +1,5 @@
 <?php
-require 'dbConnectionWithPDO.php'; 
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 
 try {
@@ -45,6 +45,7 @@ CREATE TABLE Product (
     Subtitle VARCHAR(300),
     Price DECIMAL(10, 2) NOT NULL,
     dimension VARCHAR(500),
+    type VARCHAR(100) NOT NULL,
     materials VARCHAR(400) NOT NULL,
     Description TEXT NOT NULL,
     Image_path VARCHAR(300) NOT NULL,

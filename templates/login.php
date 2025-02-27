@@ -22,8 +22,8 @@ unset($_SESSION['error']); // Clear error after displaying
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Artisan Heritage</title>
-    <link rel="icon" href="../logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../login1.css">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/login1.css">
     <style>
         .message-error {
             color: red;
@@ -39,7 +39,7 @@ unset($_SESSION['error']); // Clear error after displaying
 <body>
     <div class="container">
         <div class="image-section">
-            <img src="../loginpic.png" alt="Artisan Heritage Image">
+            <img src="../assets/loginpic.png" alt="Artisan Heritage Image">
         </div>
         <div class="form-section">
             <?php if (!empty($error)): ?>
@@ -60,13 +60,13 @@ unset($_SESSION['error']); // Clear error after displaying
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" 
                            placeholder="Password" required>
-                    <a href="./forgot_password.php">Forgot password?</a>
+                    <a href="forgot_password.php">Forgot password?</a>
                 </div>
                 <button type="submit">Sign In</button>
             </form>
 
             <div class="register">
-                Don’t have an account? <a href="./registerForm.php">Register here</a>
+                Don’t have an account? <a href="registerForm.php">Register here</a>
             </div>
         </div>
     </div>

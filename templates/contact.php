@@ -105,7 +105,7 @@ session_start();
                             <a href="../src/user-role-managment.php" data-lang-en="User Role Management" data-lang-np="प्रयोगकर्ता भूमिका व्यवस्थापन">
                                 Manage User Roles
                             </a>
-                            <a href="./logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
+                            <a href="logout.php" data-lang-en="Logout" data-lang-np="लगआउट">
                                 Logout
                             </a>
                         </div>

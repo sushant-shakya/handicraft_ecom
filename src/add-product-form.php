@@ -7,8 +7,8 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
-    <link rel="icon" href="logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="form.css">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/form.css">
     <style>
         .form-container {
             max-width: 800px;
@@ -59,6 +59,15 @@ session_start();
             display: none;
         }
 
+        .managepdt-button {
+            display: inline-block;
+    padding: 8px 15px;
+    background-color: orange;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+        }
         .file-input-container {
             position: relative;
             overflow: hidden;
@@ -148,6 +157,10 @@ session_start();
     }
     ?>
 
+<div class="form-container">
+    <div class="nav-buttons">
+        <a href="../src/manage-products.php" class="managepdt-button">Manage Products</a>
+    </div>
     <div class="form-container">
         <h1>Add Product</h1>
         
@@ -192,6 +205,15 @@ session_start();
                     name="dimension" 
                     id="dimension"
                     placeholder="Enter product dimensions (e.g., height, width, depth)"
+                ></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="type">Product Type</label>
+                <textarea 
+                    name="type" 
+                    id="type"
+                    placeholder="Enter product types(e.g., stone, metal, wood)"
                 ></textarea>
             </div>
 

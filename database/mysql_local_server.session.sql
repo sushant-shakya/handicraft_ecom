@@ -68,6 +68,9 @@ CREATE TABLE `Order` (
     FOREIGN KEY (UserID) REFERENCES `User`(UserID) ON DELETE CASCADE
 );
 
+-- ALTER TABLE Product
+-- ADD COLUMN type VARCHAR(100) NOT NULL AFTER dimension;
+
 
 -- 3.product table
 CREATE TABLE Product (
@@ -77,6 +80,7 @@ CREATE TABLE Product (
     Subtitle VARCHAR(300),
     Price DECIMAL(10, 2) NOT NULL,
     dimension VARCHAR(500),
+    type VARCHAR(100) NOT NULL,
     materials VARCHAR(400) NOT NULL,
     Description TEXT NOT NULL,
     Image_path VARCHAR(300) NOT NULL,

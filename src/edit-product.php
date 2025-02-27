@@ -1,18 +1,7 @@
 <?php
 session_start();
 
-// Database configuration
-$db_host = "localhost:3306";
-$db_name = "handicraftdb";
-$db_user = "root";
-$db_pass = "11111111";
-
-try {
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
 // Get product ID from URL
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -25,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Subtitle = ?, 
                 Price = ?, 
                 dimension = ?, 
+                type = ?, 
                 materials = ?, 
                 Description = ?";
         
@@ -33,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['subtitle'],
             $_POST['price'],
             $_POST['dimension'],
+            $_POST['type'],
             $_POST['materials'],
             $_POST['description']
         ];
@@ -82,7 +73,9 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon">
     <title>Edit Product</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -183,7 +176,13 @@ try {
                 <input type="text" id="dimension" name="dimension" 
                        value="<?= htmlspecialchars($product['dimension']) ?>">
             </div>
+            <div class="form-group">
+                <label for="type">Product Type</label>
+                <input type="text" id="type" name="type" 
+                       value="<?= htmlspecialchars($product['type']) ?>">
+            </div>
 
+            
             <div class="form-group">
                 <label for="materials">Materials</label>
                 <input type="text" id="materials" name="materials" 
