@@ -6,17 +6,17 @@ require __DIR__ . '/../database/dbConnectionWithPDO.php';
 $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // Fetch product details
-$stmt = $conn->prepare("SELECT * FROM product WHERE ProductID = ?");
-$stmt->bind_param("i", $product_id);
+$stmt = $pdo->prepare("SELECT * FROM product WHERE ProductID = ?");
+$stmt->bindParam(1, $product_id, PDO::PARAM_INT); // Correct PDO parameter binding
 $stmt->execute();
-$result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
+// Fetch the result
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$product) {
     header("Location: shop.php");
     exit();
 }
-
-$product = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="en">
