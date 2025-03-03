@@ -214,6 +214,7 @@ session_start();
                     name="type" 
                     id="type"
                     placeholder="Enter product types(e.g., stone, metal, wood)"
+                    required
                 ></textarea>
             </div>
 

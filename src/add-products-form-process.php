@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $subtitle = htmlspecialchars(trim($_POST['subtitle'] ?? ''));
         $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $dimension = htmlspecialchars(trim($_POST['dimension'] ?? ''));
+        $type = htmlspecialchars(trim($_POST['type'] ?? ''));
         $materials = htmlspecialchars(trim($_POST['materials'] ?? ''));
         $description = htmlspecialchars(trim($_POST['description'] ?? ''));
 
@@ -74,14 +75,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insert into database
         $stmt = $pdo->prepare("
             INSERT INTO Product 
-            (ProductName, Subtitle, Price, dimension, materials, Description, Image_path)
-            VALUES (:name, :subtitle, :price, :dimension, :materials, :description, :image_path)
+            (ProductName, Subtitle, Price, dimension, type, materials, Description, Image_path)
+            VALUES (:name, :subtitle, :price, :dimension, :type, :materials, :description, :image_path)
         ");
         
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':subtitle', $subtitle);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':dimension', $dimension);
+        $stmt->bindParam(':type', $type);
         $stmt->bindParam(':materials', $materials);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':image_path', $db_file_path);
