@@ -20,6 +20,33 @@ try {
         $payment_method = filter_input(INPUT_POST, 'payment_method', FILTER_SANITIZE_STRING);
         $product_name = filter_input(INPUT_POST, 'product_name', FILTER_SANITIZE_STRING);
 
+
+        // Validate phone number with regex
+        $phone_regex = '/^(98|97|96)\d{8}$/';
+        if (!preg_match($phone_regex, $phone)) {
+            $_SESSION['error'] = "Invalid phone number. Must be 10 digits starting with 98, 97, or 96.";
+            header("Location: ../templates/form.php?product_name=" . urlencode($product_name));
+            exit;
+        }
+        
+        // Additional validation to prevent negative values
+        if ($phone <= 0 ) {
+            $_SESSION['error'] = "Phone number  must be positive values.";
+            header("Location: ../templates/form.php?product_name=" . urlencode($product_name));
+            exit;
+        }
+        
+        if ( $quantity <= 0 ) {
+            $_SESSION['error'] = "Quantity  must be positive values.";
+            header("Location: ../templates/form.php?product_name=" . urlencode($product_name));
+            exit;
+        }
+        if ( $postal_code <= 0 ) {
+            $_SESSION['error'] = "postal code  must be positive values.";
+            header("Location: ../templates/form.php?product_name=" . urlencode($product_name));
+            exit;
+        }
+
         // Validate required fields
         if (empty($full_name) || empty($city) || empty($postal_code) || empty($address) || empty($phone) || empty($quantity) || empty($payment_method) || empty($product_name)) {
             $_SESSION['error'] = "All required fields must be filled.";

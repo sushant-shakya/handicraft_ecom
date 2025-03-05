@@ -120,7 +120,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
             </div>
 
             <div class="form-group">
-                <label for="phone">Quantity*</label>
+                <label for="quantity">Quantity*</label>
                 <input type="number" id="quantity" name="quantity" required>
             </div>
 
