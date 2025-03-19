@@ -60,7 +60,7 @@ unset($_SESSION['error']); // Clear error after displaying
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" 
                            placeholder="Password" required>
-                    <a href="forgot_password.php">Forgot password?</a>
+                    <!-- <a href="forgot_password.php">Forgot password?</a> -->
                 </div>
                 <button type="submit">Sign In</button>
             </form>
