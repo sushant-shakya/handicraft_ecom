@@ -12,6 +12,8 @@ if (isset($_POST['delete_id'])) {
     try {
         $stmt = $pdo->prepare("DELETE FROM product WHERE ProductID = ?");
         $stmt->execute([$_POST['delete_id']]);
+        $_SESSION['message'] = "Product deleted successfully!";
+        $_SESSION['message_type'] = "success";
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } catch(PDOException $e) {

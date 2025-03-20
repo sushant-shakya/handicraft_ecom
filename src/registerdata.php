@@ -45,7 +45,7 @@ try {
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existingUser) {
-            $_SESSION['error'] = "User already exists. Please log in or use a different email/username.";
+            $_SESSION['error'] = "Email already exists. Please log in or use a different email/username.";
             header("Location: ../templates/registerForm.php");
             exit;
         }
@@ -53,15 +53,15 @@ try {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password, OTP, Created_at) 
-        VALUES (:username, :email, :password,  :otp, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO `User` (UserName, Email, Password,  Created_at) 
+        VALUES (:username, :email, :password,  NOW())");
 
 $otp = null; // Or generate an OTP if required
 
 $stmt->bindParam(':username', $_POST['username'], PDO::PARAM_STR);
 $stmt->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
 $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
-$stmt->bindParam(':otp', $otp, PDO::PARAM_STR); // Bind OTP value
+// $stmt->bindParam(':otp', $otp, PDO::PARAM_STR); // Bind OTP value
 
 if ($stmt->execute()) {
 $_SESSION['success'] = "Registration successful! Please log in.";

@@ -116,7 +116,7 @@ $product_name = isset($_SESSION['product_name']) ? $_SESSION['product_name'] : "
 
             <div class="form-group">
                 <label for="phone">Phone No*</label>
-                <input type="number" id="phone" name="phone" required placeholder="e.g. 9812345678" maxlength="10" pattern="^(98|97|96)[0-9]{8}$" title="Phone number must start with 98, 97, or 96 and be exactly 10 digits long.">
+                <input type="number" id="phone" name="phone" required placeholder="e.g. 9812345678" maxlength="10" pattern="^(98|97|96)[0-9]{8}$" title="Phone number must start with 98, 97, or 96 and must be exactly 10 digits long.">
             </div>
 
             <div class="form-group">
