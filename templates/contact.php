@@ -139,9 +139,9 @@ session_start();
             <div class="social-media">
                 <h4 data-lang-en="Follow Us" data-lang-np="हाम्रो अनुसरण गर्नुहोस्">Follow Us</h4>
                 <div class="icons">
-                    <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
-                    <a href="#"><img src="email-icon.png" alt="Email"></a>
-                    <a href="#"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
+                    <a href="https://www.facebook.com/">Facebook</a>
+                    <a href="https://www.instagram.com/">Instagram</a>
+                    <a href="https://www.youtube.com/">YouTube</a>
                 </div>
             </div>
         </div>

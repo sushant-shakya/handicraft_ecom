@@ -61,12 +61,12 @@ session_start();
 
         .managepdt-button {
             display: inline-block;
-    padding: 8px 15px;
-    background-color: orange;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
+            padding: 8px 15px;
+            background-color: orange;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
         }
         .file-input-container {
             position: relative;
@@ -139,7 +139,7 @@ session_start();
 
         .required::after {
             content: "*";
-            color: red;
+            color: green;
             margin-left: 4px;
         }
     </style>
@@ -173,6 +173,8 @@ session_start();
                     id="name" 
                     required
                     placeholder="Enter product name"
+                    value="<?php echo isset($_SESSION['form_data']['name']) ? htmlspecialchars($_SESSION['form_data']['name']) : ''; ?>"
+                    
                 >
             </div>
 
@@ -183,6 +185,8 @@ session_start();
                     name="subtitle" 
                     id="subtitle"
                     placeholder="Enter product subtitle"
+                    value="<?php echo isset($_SESSION['form_data']['subtitle']) ? htmlspecialchars($_SESSION['form_data']['subtitle']) : ''; ?>"
+                   
                 >
             </div>
 
@@ -195,7 +199,8 @@ session_start();
                     step="0.01" 
                     required
                     placeholder="0.00"
-                    min="0"
+                    min="0.01"
+                    value="<?php echo isset($_SESSION['form_data']['price']) ? htmlspecialchars($_SESSION['form_data']['price']) : ''; ?>"
                 >
             </div>
 
@@ -205,7 +210,7 @@ session_start();
                     name="dimension" 
                     id="dimension"
                     placeholder="Enter product dimensions (e.g., height, width, depth)"
-                ></textarea>
+                ><?php echo isset($_SESSION['form_data']['dimension']) ? htmlspecialchars($_SESSION['form_data']['dimension']) : ''; ?></textarea>
             </div>
             
             <div class="form-group">
@@ -215,7 +220,7 @@ session_start();
                     id="type"
                     placeholder="Enter product types(e.g., stone, metal, wood)"
                     required
-                ></textarea>
+                ><?php echo isset($_SESSION['form_data']['type']) ? htmlspecialchars($_SESSION['form_data']['type']) : ''; ?></textarea>
             </div>
 
             <div class="form-group">
@@ -224,7 +229,7 @@ session_start();
                     name="materials" 
                     id="materials"
                     placeholder="Enter product materials (e.g., gold-plated, turquoise inlays)"
-                ></textarea>
+                ><?php echo isset($_SESSION['form_data']['materials']) ? htmlspecialchars($_SESSION['form_data']['materials']) : ''; ?></textarea>
             </div>
 
             <div class="form-group">
@@ -233,7 +238,7 @@ session_start();
                     name="description" 
                     id="description"
                     placeholder="Enter detailed product description"
-                ></textarea>
+                ><?php echo isset($_SESSION['form_data']['description']) ? htmlspecialchars($_SESSION['form_data']['description']) : ''; ?></textarea>
             </div>
 
             <div class="form-group">

@@ -44,7 +44,7 @@ p {
 }
 
 a {
-    color: #f9f9f9;
+    color: black;
     text-decoration: none;
 }
 
@@ -54,15 +54,11 @@ a:hover {
 
 .icons {
     display: flex;
+    background:black;
     gap: 10px;
     margin-top: 10px;
 }
 
-.icons img {
-    width: 32px;
-    height: 32px;
-    filter: brightness(0) invert(1); /* Adjusts icon colors to white */
-}
 
 iframe {
     border-radius: 10px;

@@ -10,6 +10,17 @@ if (!$pdo) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
+        // Store form data in session for persistence after validation errors
+        $_SESSION['form_data'] = [
+            'name' => $_POST['name'] ?? '',
+            'subtitle' => $_POST['subtitle'] ?? '',
+            'price' => $_POST['price'] ?? '',
+            'dimension' => $_POST['dimension'] ?? '',
+            'type' => $_POST['type'] ?? '',
+            'materials' => $_POST['materials'] ?? '',
+            'description' => $_POST['description'] ?? ''
+        ];
+
         // Collect other data - using htmlspecialchars instead of deprecated FILTER_SANITIZE_STRING
         $name = htmlspecialchars(trim($_POST['name'] ?? ''));
         $subtitle = htmlspecialchars(trim($_POST['subtitle'] ?? ''));
@@ -19,9 +30,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $materials = htmlspecialchars(trim($_POST['materials'] ?? ''));
         $description = htmlspecialchars(trim($_POST['description'] ?? ''));
 
-        // Validate required fields (only check fields marked as required in the HTML)
-        if (empty($name) || empty($price)) {
-            $_SESSION['error'] = "All required fields must be filled.";
+        // Enhanced validation  
+        $errors = []; 
+        
+        // Validate name (required, characters only)
+        if (empty($name)) {
+            $errors[] = "Product name is required.";
+        } elseif (!preg_match("/^[a-zA-Z\s\-_.']+$/", $name)) {
+            $errors[] = "Product name should contain only letters,  spaces, and basic punctuation.";
+        }
+        
+        // Validate subtitle (characters only, if provided)
+        if (!empty($subtitle) && !preg_match("/^[a-zA-Z\s\-_.']+$/", $subtitle)) {
+            $errors[] = "Subtitle should contain only letters,  spaces, and basic punctuation.";
+        }
+        
+        // Validate price (required, must be positive)
+        if (empty($price)) {
+            $errors[] = "Price is required.";
+        } elseif (!is_numeric($price) || $price <= 0) {
+            $errors[] = "Price must be a positive number.";
+        }
+
+        // If validation errors exist, redirect back with errors
+        if (!empty($errors)) {
+            $_SESSION['error'] = implode("<br>", $errors);
             header("Location: add-product-form.php");
             exit;
         }
@@ -90,6 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($stmt->execute()) {
             $_SESSION['success'] = "Product inserted successfully!";
+            // Clear form data on success
+            unset($_SESSION['form_data']);
         } else {
             $_SESSION['error'] = "Failed to insert product.";
         }

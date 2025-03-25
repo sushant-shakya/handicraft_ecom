@@ -2,7 +2,7 @@
 session_start();
 require __DIR__ . '/../database/dbConnectionWithPDO.php';
 
-// Function to get filtered products
+// Function to get filtered products with robust price validation
 function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT_MAX, $search = '') {
     $params = [];
     $sql = "SELECT * FROM product WHERE 1=1";
@@ -12,14 +12,19 @@ function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT
         $params[':type'] = $type;
     }
 
-    if ($min_price > 0) {
+    // Only add price conditions if they are valid and meaningful
+    if ($min_price > 0 && $max_price == PHP_FLOAT_MAX) {
+        // If only min_price is provided, add a condition that effectively ensures no products match
+        $sql .= " AND Price > :max_price";
+        $params[':max_price'] = $max_price;
+    } elseif ($min_price > 0) {
         $sql .= " AND Price >= :min_price";
         $params[':min_price'] = $min_price;
-    }
 
-    if ($max_price < PHP_FLOAT_MAX) {
-        $sql .= " AND Price <= :max_price";
-        $params[':max_price'] = $max_price;
+        if ($max_price < PHP_FLOAT_MAX) {
+            $sql .= " AND Price <= :max_price";
+            $params[':max_price'] = $max_price;
+        }
     }
 
     if (!empty($search)) {
@@ -32,14 +37,40 @@ function getProducts($pdo, $type = 'all', $min_price = 0, $max_price = PHP_FLOAT
     return $stmt->fetchAll();
 }
 
-
-// Get filter parameters
+// Get and validate filter parameters
 $type = $_GET['filter'] ?? 'all';
-$min_price = isset($_GET['min_price']) ? floatval($_GET['min_price']) : 0;
+$min_price = isset($_GET['min_price']) ? abs(floatval($_GET['min_price'])) : 0;
 $max_price = isset($_GET['max_price']) && $_GET['max_price'] !== '' 
-             ? floatval($_GET['max_price']) 
+             ? abs(floatval($_GET['max_price'])) 
              : PHP_FLOAT_MAX;
 $search = $_GET['search'] ?? '';
+
+// Ensure max price is not less than min price
+if ($max_price < $min_price) {
+    $max_price = PHP_FLOAT_MAX;
+}
+
+// Get filtered products
+$products = getProducts($pdo, $type, $min_price, $max_price, $search);
+
+// Determine if no products message should be shown
+$show_no_products_message = (
+    (isset($_GET['min_price']) && $min_price > 0 && $max_price === PHP_FLOAT_MAX && empty($products)) || 
+    empty($products)
+);
+
+// Get and validate filter parameters
+$type = $_GET['filter'] ?? 'all';
+$min_price = isset($_GET['min_price']) ? abs(floatval($_GET['min_price'])) : 0;
+$max_price = isset($_GET['max_price']) && $_GET['max_price'] !== '' 
+             ? abs(floatval($_GET['max_price'])) 
+             : PHP_FLOAT_MAX;
+$search = $_GET['search'] ?? '';
+
+// Ensure max price is not less than min price
+if ($max_price < $min_price) {
+    $max_price = PHP_FLOAT_MAX;
+}
 
 // Get filtered products
 $products = getProducts($pdo, $type, $min_price, $max_price, $search);
@@ -110,6 +141,20 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
             border-right: 5px solid transparent;
             border-left: 5px solid transparent;
             margin-left: 5px;
+        }
+        .input-error {
+            border: 2px solid red;
+        }
+        .error-message {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        .no-products-message {
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+            font-size: 1.2em;
         }
     </style>
 </head>
@@ -182,44 +227,69 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
     </div>
 </section>
 
- <!-- Main Content Area with Filters and Products -->
- <section class="shop-content">
-     <!-- Filters Section -->
-     <aside class="filters">
+  <!-- Main Content Area with Filters and Products -->
+  <section class="shop-content">
+        <!-- Filters Section -->
+        <aside class="filters">
             <h2 data-lang-en="Filters" data-lang-np="फिल्टरहरू">Filters</h2>
             <form id="filter-form" method="GET" action="">
                 <div class="filter-group">
                     <label for="price-min">Price (From):</label>
-                    <input type="number" name="min_price" id="price-min" value="<?= htmlspecialchars($min_price) ?>" placeholder="Rs">
+                    <input type="number" 
+                           name="min_price" 
+                           id="price-min" 
+                           value="<?= $min_price > 0 ? htmlspecialchars($min_price) : '' ?>" 
+                           placeholder="Minimum Price" 
+                           min="0" 
+                           step="0.01" >
+                    <div id="min-price-error" class="error-message"></div>
                 </div>
+
                 <div class="filter-group">
                     <label for="price-max">Price (To):</label>
-                    <input type="number" name="max_price" id="price-max" 
-       value="<?= ($max_price !== PHP_FLOAT_MAX) ? htmlspecialchars($max_price) : '' ?>" 
-       placeholder="Rs">
-
+                    <input type="number" 
+                           name="max_price" 
+                           id="price-max" 
+                           value="<?= ($max_price !== PHP_FLOAT_MAX) ? htmlspecialchars($max_price) : '' ?>" 
+                           placeholder="Maximum Price" 
+                           min="0" 
+                           step="0.01" >
+                    <div id="max-price-error" class="error-message"></div>
                 </div>
+
+
                 <div class="filter-group">
-    <label for="product-type">Product Type:</label>
-    <select name="filter" id="product-type">
-        <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All</option>
-        <option value="metal" <?= $type === 'metal' ? 'selected' : '' ?>>Metal</option>
-        <option value="stone" <?= $type === 'stone' ? 'selected' : '' ?>>Stone</option>
-        <option value="wood" <?= $type === 'wood' ? 'selected' : '' ?>>Wood</option>
-    </select>
-</div>
+                    <label for="product-type">Product Type:</label>
+                    <select name="filter" id="product-type">
+                        <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All</option>
+                        <option value="metal" <?= $type === 'metal' ? 'selected' : '' ?>>Metal</option>
+                        <option value="stone" <?= $type === 'stone' ? 'selected' : '' ?>>Stone</option>
+                        <option value="wood" <?= $type === 'wood' ? 'selected' : '' ?>>Wood</option>
+                    </select>
+                </div>
+
                 <button type="submit" class="filter-button">Apply Filter</button>
             </form>
         </aside>
 
-
+        <!-- Products Section -->
         <!-- Products Section -->
         <div class="products">
             <h2>Products</h2>
-            <div class="product-grid">
-                <?php if (empty($products)): ?>
-                    <p class="no-products">No products found matching your criteria.</p>
-                <?php else: ?>
+            <?php if ($show_no_products_message): ?>
+                <div class="no-products-message">
+                    <?php 
+                    if ($min_price > 0 && $max_price === PHP_FLOAT_MAX) {
+                        echo "No products found for Rs " . number_format($min_price);
+                    } elseif ($max_price === PHP_FLOAT_MAX) {
+                        echo "No products found for Rs " . number_format($max_price) ;
+                    }else{
+                        echo "No products found matching your criteria.";
+                    }
+                    ?>
+                </div>
+            <?php else: ?>
+                <div class="product-grid">
                     <?php foreach ($products as $product): ?>
                         <a href="product.php?id=<?= htmlspecialchars($product['ProductID']) ?>" class="product-link">
                             <div class="product" 
@@ -232,13 +302,12 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
                             </div>
                         </a>
                     <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
-
-     <!-- Footer -->
-     <footer>
+ <!-- Footer -->
+ <footer>
         <div class="socials">
             <p data-lang-en="Follow us on:" data-lang-np="हामीलाई फलो गर्नुहोस्:">Follow us on:</p>
             <a href="#">Facebook</a>
@@ -258,7 +327,7 @@ $products = getProducts($pdo, $type, $min_price, $max_price, $search);
         </div>
     </footer>
 
-        <script>
+    <script>
 // Language Switching
 document.getElementById("language-select").addEventListener("change", (e) => {
     const lang = e.target.value;
@@ -267,8 +336,7 @@ document.getElementById("language-select").addEventListener("change", (e) => {
     });
 });
 
-
-//filter
+        //filter
 function filterProducts() {
     const urlParams = new URLSearchParams(window.location.search);
     const productType = urlParams.get("filter") || "all";
@@ -289,10 +357,87 @@ function filterProducts() {
 window.addEventListener("DOMContentLoaded", filterProducts);
 
 
+   document.addEventListener('DOMContentLoaded', function() {
+    const filterForm = document.getElementById('filter-form');
+    const minPriceInput = document.getElementById('price-min');
+    const maxPriceInput = document.getElementById('price-max');
+    const minPriceError = document.getElementById('min-price-error');
+    const maxPriceError = document.getElementById('max-price-error');
+
+    // Retrieve filter parameters from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const minPriceParam = urlParams.get('min_price');
+    const maxPriceParam = urlParams.get('max_price');
+
+    // Set input values from URL parameters if they exist
+    if (minPriceParam !== null) {
+        minPriceInput.value = parseFloat(minPriceParam);
+    }
+
+    if (maxPriceParam !== null && maxPriceParam !== '') {
+        maxPriceInput.value = parseFloat(maxPriceParam);
+    }
+
+    // Price validation function
+    function validatePrices() {
+        // Reset previous error states
+        minPriceInput.classList.remove('input-error');
+        maxPriceInput.classList.remove('input-error');
+        minPriceError.textContent = '';
+        maxPriceError.textContent = '';
+
+        let isValid = true;
+
+        // Validate minimum price
+        const minPrice = minPriceInput.value.trim() !== '' 
+            ? parseFloat(minPriceInput.value) 
+            : 0;
+
+        if (isNaN(minPrice) || minPrice < 0) {
+            minPriceInput.classList.add('input-error');
+            minPriceError.textContent = 'Minimum price must be a non-negative number';
+            isValid = false;
+        }
+
+        // Validate maximum price if provided
+        if (maxPriceInput.value.trim() !== '') {
+            const maxPrice = parseFloat(maxPriceInput.value);
+
+            if (maxPrice < 0) {
+                maxPriceInput.classList.add('input-error');
+                maxPriceError.textContent = 'Maximum price must be a non-negative number';
+                isValid = false;
+            }
+
+            // Check if max price is less than min price
+            if (isNaN(maxPrice) || maxPrice < minPrice) {
+                maxPriceInput.classList.add('input-error');
+                maxPriceError.textContent = 'Maximum price cannot be less than minimum price';
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    // Add event listeners for real-time validation
+    minPriceInput.addEventListener('input', validatePrices);
+    maxPriceInput.addEventListener('input', validatePrices);
+
+    // Form submission validation
+    filterForm.addEventListener('submit', function(event) {
+        if (!validatePrices()) {
+            event.preventDefault();
+        }
+    });
+
+    // Initial validation when page loads
+    validatePrices();
+});
 
 //search
              // Search functionality
-    document.getElementById("search-button").addEventListener("click", function() {
+             document.getElementById("search-button").addEventListener("click", function() {
         const searchQuery = document.getElementById("search-input").value.trim();
         const currentUrl = new URL(window.location.href);
         currentUrl.searchParams.set("search", searchQuery);
@@ -348,8 +493,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
-        </script>
-        
-        </body>
-        </html>
+    </script>
+
+   
+</body>
+</html>
         

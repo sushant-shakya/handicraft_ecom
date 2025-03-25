@@ -161,9 +161,9 @@ session_start();
     <footer>
         <div class="socials">
             <p data-lang-en="Follow us on:" data-lang-np="हामीलाई फलो गर्नुहोस्:">Follow us on:</p>
-            <a href="#">Facebook</a>
-            <a href="#">Instagram</a>
-            <a href="#">YouTube</a>
+            <a href="https://www.facebook.com/">Facebook</a>
+            <a href="https://www.instagram.com/">Instagram</a>
+            <a href="https://www.youtube.com/">YouTube</a>
         </div>
         <div class="contact-info">
             <p data-lang-en="CONTACT" data-lang-np="सम्पर्क">CONTACT</p>
