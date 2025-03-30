@@ -37,12 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($name)) {
             $errors[] = "Product name is required.";
         } elseif (!preg_match("/^[a-zA-Z\s\-_.']+$/", $name)) {
-            $errors[] = "Product name should contain only letters,  spaces, and basic punctuation.";
+            $errors[] = "Product name should contain only letters, spaces, and basic punctuation.";
         }
         
         // Validate subtitle (characters only, if provided)
         if (!empty($subtitle) && !preg_match("/^[a-zA-Z\s\-_.']+$/", $subtitle)) {
-            $errors[] = "Subtitle should contain only letters,  spaces, and basic punctuation.";
+            $errors[] = "Subtitle should contain only letters, spaces, and basic punctuation.";
         }
         
         // Validate price (required, must be positive)
@@ -52,9 +52,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = "Price must be a positive number.";
         }
 
+        // Validate product type (characters only, if provided)
+        if (!empty($type) && !preg_match("/^[a-zA-Z\s\-_.']+$/", $type)) {
+            $errors[] = "Product type should contain only letters, spaces, and basic punctuation.";
+        }
+        
+        // Validate materials (characters only, if provided)
+        if (!empty($materials) && !preg_match("/^[a-zA-Z\s\-_.']+$/", $materials)) {
+            $errors[] = "Materials should contain only letters, spaces, and basic punctuation.";
+        }
+
         // If validation errors exist, redirect back with errors
         if (!empty($errors)) {
-            $_SESSION['error'] = implode("<br>", $errors);
+            // Fix: Correctly implode the array of errors
+            $_SESSION['error'] = implode(". ", $errors);
             header("Location: add-product-form.php");
             exit;
         }

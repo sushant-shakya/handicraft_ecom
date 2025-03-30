@@ -15,11 +15,20 @@ if (isset($_POST['delete_order']) && isset($_POST['order_id'])) {
         $stmt = $pdo->prepare("DELETE FROM `Order` WHERE OrderID = ?");
         $stmt->execute([$order_id]);
         
+        // Set success message in session
+        $_SESSION['message'] = "Order #" . $order_id . " has been successfully deleted.";
+        $_SESSION['message_type'] = "success";
+        
         // Redirect to refresh the page after deletion
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
     } catch (PDOException $e) {
-        $error_message = "Failed to delete order: " . $e->getMessage();
+        $_SESSION['message'] = "Failed to delete order: " . $e->getMessage();
+        $_SESSION['message_type'] = "error";
+        
+        // Redirect to refresh the page
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     }
 }
 
@@ -43,8 +52,8 @@ try {
     $stmt->execute();
     $orders = $stmt->fetchAll();
 } catch (PDOException $e) {
-    echo "Failed to fetch orders: " . $e->getMessage();
-    exit();
+    $_SESSION['message'] = "Failed to fetch orders: " . $e->getMessage();
+    $_SESSION['message_type'] = "error";
 } finally {
     $pdo = null;
 }
@@ -139,17 +148,50 @@ try {
         .cancel-delete {
             background-color: #dddddd;
         }
+        /* Message styling */
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .success-message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error-message {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        /* Auto-hide message after 5 seconds */
+        .message-fadeout {
+            animation: fadeout 1s ease-in-out 4s forwards;
+        }
+        @keyframes fadeout {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
     <h1>Admin Dashboard</h1>
     <h3>List of Orders</h3>
     
-    <?php if (isset($error_message)): ?>
-        <div style="color: red; margin-bottom: 15px;">
-            <?php echo $error_message; ?>
-        </div>
-    <?php endif; ?>
+    <?php
+    // Display message if it exists in session
+    if (isset($_SESSION['message']) && isset($_SESSION['message_type'])) {
+        $message_class = $_SESSION['message_type'] === 'success' ? 'success-message' : 'error-message';
+        echo '<div class="message ' . $message_class . ' message-fadeout" id="statusMessage">';
+        echo $_SESSION['message'];
+        echo '</div>';
+        
+        // Clear the message from session
+        unset($_SESSION['message']);
+        unset($_SESSION['message_type']);
+    }
+    ?>
     
     <a href="../templates/landingpg.php">
         <button class="home-button">Home</button>
@@ -176,7 +218,7 @@ try {
             </tr>
         </thead>
         <tbody>
-            <?php if ($orders): ?>
+            <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $order): ?>
                     <tr>
                         <td><?php echo htmlspecialchars($order['OrderID']); ?></td>
@@ -195,7 +237,7 @@ try {
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="9">No orders found in the database.</td>
+                    <td colspan="10">No orders found in the database.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -226,6 +268,16 @@ try {
         function hideDialog() {
             document.getElementById('confirmationDialog').style.display = 'none';
         }
+        
+        // Auto-hide message after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            var statusMessage = document.getElementById('statusMessage');
+            if (statusMessage) {
+                setTimeout(function() {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
     </script>
 </body>
 </html>
