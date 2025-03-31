@@ -23,6 +23,15 @@ try {
             exit;
         }
 
+
+        
+        // Validate name (required, characters only)
+       
+        if (!preg_match("/^[a-zA-Z\s\-']+$/u", $username)) {
+            $_SESSION['error'] = "User name should contain only letters, spaces, and hyphens.";
+            header("Location: ../templates/registerForm.php");
+            exit;
+        }
         // Validate password complexity
         if (!preg_match('/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,15}$)/', $password)) {
             $_SESSION['error'] = "Password must be 6-15 characters long, include at least one number and one special character.";
@@ -38,14 +47,13 @@ try {
         }
 
         // Check if user or admin already exists
-        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE UserName = :username OR Email = :email");
-        $stmt->bindParam(':username', $username);
+        $stmt = $pdo->prepare("SELECT * FROM `User` WHERE  Email = :email");
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($existingUser) {
-            $_SESSION['error'] = "Email already exists. Please log in or use a different email/username.";
+            $_SESSION['error'] = "Email already exists. Please log in or use a different email/.";
             header("Location: ../templates/registerForm.php");
             exit;
         }
